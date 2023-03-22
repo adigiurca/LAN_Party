@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 typedef struct Player
@@ -21,4 +22,5 @@ typedef struct Node {
 }NODE;
 
 void add_at_beginning(NODE**, PLAYER);
+void read_names_from_file_and_add_at_beginning(char*, NODE);
 

@@ -9,18 +9,25 @@
 #include <string.h>
 
 
-typedef struct Player
-{
-    char* firstName;
-    char* secondName;
+typedef struct Player {
+    char *firstName;
+    char *secondName;
     int points;
-}PLAYER;
+} PLAYER;
 
 typedef struct Node {
     PLAYER player_info;
     struct Node *next;
-}NODE;
+} NODE;
 
-void add_at_beginning(NODE**, PLAYER);
-void read_names_from_file_and_add_at_beginning(char*, NODE);
+//void add_at_beginning(NODE **, PLAYER);
 
+void read_names_from_file_and_add_at_beginning(char *, NODE*);
+
+void print(NODE *);
+
+void add_node(NODE **, PLAYER);
+
+void read_from_file_and_add_at_beginning(NODE **, char *);
+
+void add_node_recursively(NODE**, PLAYER);

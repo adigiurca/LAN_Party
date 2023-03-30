@@ -16,7 +16,9 @@ typedef struct Player {
 } PLAYER;
 
 typedef struct Node {
-    PLAYER player_info;
+    PLAYER *player_info;
+    char team_name[20];
+    int team_players;
     struct Node *next;
 } NODE;
 

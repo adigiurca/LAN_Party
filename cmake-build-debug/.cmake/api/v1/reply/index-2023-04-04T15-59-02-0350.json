@@ -11,15 +11,15 @@
 			"cmake" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/cmake.exe",
 			"cpack" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/cpack.exe",
 			"ctest" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/ctest.exe",
-			"root" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/share/cmake-3.24"
+			"root" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/share/cmake-3.25"
 		},
 		"version" : 
 		{
 			"isDirty" : false,
 			"major" : 3,
-			"minor" : 24,
+			"minor" : 25,
 			"patch" : 2,
-			"string" : "3.24.2",
+			"string" : "3.25.2",
 			"suffix" : ""
 		}
 	},
@@ -35,7 +35,7 @@
 			}
 		},
 		{
-			"jsonFile" : "cache-v2-ea88e3e3d75f8b5e076c.json",
+			"jsonFile" : "cache-v2-e1658f7ca82878cd18e9.json",
 			"kind" : "cache",
 			"version" : 
 			{
@@ -44,7 +44,7 @@
 			}
 		},
 		{
-			"jsonFile" : "cmakeFiles-v1-7d234e8df07f43d89cd4.json",
+			"jsonFile" : "cmakeFiles-v1-216a4e7b6fc6d5c8f79e.json",
 			"kind" : "cmakeFiles",
 			"version" : 
 			{
@@ -66,7 +66,7 @@
 	{
 		"cache-v2" : 
 		{
-			"jsonFile" : "cache-v2-ea88e3e3d75f8b5e076c.json",
+			"jsonFile" : "cache-v2-e1658f7ca82878cd18e9.json",
 			"kind" : "cache",
 			"version" : 
 			{
@@ -76,7 +76,7 @@
 		},
 		"cmakeFiles-v1" : 
 		{
-			"jsonFile" : "cmakeFiles-v1-7d234e8df07f43d89cd4.json",
+			"jsonFile" : "cmakeFiles-v1-216a4e7b6fc6d5c8f79e.json",
 			"kind" : "cmakeFiles",
 			"version" : 
 			{

@@ -9,17 +9,14 @@ void print(NODE *head) {
     }
 }
 
-void add_at_beginning_team_info(NODE **head, PLAYER v) {
-    NODE *newNode = (NODE *) malloc(sizeof(NODE));
-
-    /*
-     *fscanf pentru numarul de jucatori si numele echipei
-     * malloc la players (PLAYER *player_info = malloc (nr_de_jucatori * sizeof (PLAYER))
-     * dupa se face un for de la 0 la nr de jucatori;
-     * se da maloc la nume si prenume
-     * fscanf pentru nume prenume si puncte
-     * ----------
-     * */
+void add_at_beginning_team_info(NODE **head, PLAYER v, FILE *fp) {
+     NODE *newNode = (NODE *) malloc(sizeof(NODE));
+     //fscanf pentru numarul de jucatori si numele echipei;
+     fscanf(fp, "%d %s", &newNode->team_players, newNode->team_name);
+     newNode->player_info = (PLAYER*)malloc (newNode->team_players * sizeof (PLAYER));
+      //dupa se face un for de la 0 la nr de jucatori;
+      //se da maloc la nume si prenume
+      //fscanf pentru nume prenume si puncte
 
     newNode->next = *head;
     *head = newNode;

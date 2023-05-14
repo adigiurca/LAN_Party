@@ -1,22 +1,35 @@
 #include "functions.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 int main() {
-    NODE *head = NULL;
-//    head = (NODE*) malloc(sizeof(NODE));
-//    head->next = NULL;
-//    head->player_info->firstName = NULL;
-//    head->player_info->secondName = NULL;
-//    head->player_info->points = 0;
-    char* teams;
+    FILE *file = fopen("C:\\Users\\agiur\\OneDrive\\Documents\\GitHub\\LAN_Party\\d.in", "r");
+    if (file == NULL) {
+        printf("Eroare la deschiderea fisierului!");
+        return 1;
+    }
 
-    //Testing teams file content
-//    char c = getc(teams);
-//    while (c != EOF){
-//        putchar(c);
-//        c = getc(teams);
-//    }
+    struct Node *head = NULL;
+    NODE *team;
+    int player_number;
+    char *team_name = (char *) malloc(25);
+    char *player_firstname = (char *) malloc(10);
+    char *player_lastname = (char *) malloc(10);
+    int player_points;
 
-    read_names_from_file_and_add_at_beginning(&teams, head);
+    // Citirea valorilor din fisier si adaugarea lor la inceputul listei
+    while (fscanf(file, "%d", &player_number) && fscanf(file, "%s", team_name) &&
+           fscanf(file, "%s", player_firstname) && fscanf(file, "%s", player_lastname) &&
+           fscanf(file, "%d", player_points) == 1) {
+        addToBeginning(&head, team);
+    }
 
+    fclose(file);
+
+    print(head);
+
+    return 0;
 }
+
 

@@ -9,62 +9,31 @@ void print(NODE *head) {
     }
 }
 
-void add_at_beginning_team_info(NODE **head, PLAYER v, FILE *fp) {
-     NODE *newNode = (NODE *) malloc(sizeof(NODE));
-     //fscanf pentru numarul de jucatori si numele echipei;
-     fscanf(fp, "%d %s", &newNode->team_players, newNode->team_name);
-     newNode->player_info = (PLAYER*)malloc (newNode->team_players * sizeof (PLAYER));
-      //dupa se face un for de la 0 la nr de jucatori;
-      //se da maloc la nume si prenume
-      //fscanf pentru nume prenume si puncte
+void addToBeginning(NODE** head, NODE* team) {
+    // Alocare memorie pentru noul nod
+    NODE* newNode = (NODE*)malloc(sizeof(NODE));
+    if (newNode == NULL) {
+        printf("Eroare la alocarea memoriei!");
+        return;
+    }
 
+    // Initializare date pentru noul nod
+    newNode->player_number = team->player_number;
+    strcpy(newNode->team_name, team->team_name);
+    strcpy(newNode->player_info->firstName, team->player_info->firstName);
+    strcpy(newNode->player_info->secondName, team->player_info->secondName);
+    newNode->player_info->points = team->player_info->points;
     newNode->next = *head;
+
+    // Actualizare pointer catre inceputul listei
     *head = newNode;
 }
 
-void read_names_from_file_and_add_at_beginning(char *file, NODE *head) {
-    char first_name[50], last_name[50];
-    FILE *fp = fopen("C:\\Users\\agiur\\OneDrive\\Documents\\GitHub\\LAN_Party\\d.in", "r+");
-
-    if (fp == NULL) {
-        printf("Fisierul nu a putut fi deschis.\n");
-        exit(1);
-    }
-    int teams_number = 0;
-    char test[20];
-    int test1;
-    fscanf(fp, "%d", &teams_number);
-    printf("%d\n",teams_number);
-//    for (int i = 0; i < teams_number; i++) {
-//
+//void read_from_file_and_add_at_beginning(FILE* fp,NODE** head, NODE* team){
+//    while (fscanf(fp, "r") == 1) {
+//        addToBeginning(&head, team);
 //    }
-
-
-//    while (fscanf(fp, "%s %s", head->player_info.firstName, head->player_info.secondName) != EOF) {
-//        add_at_beginning(&head, head->player_info);
-//    }
-
-    fclose(fp);
-}
-
-//void addNode(NODE **head_ref, PLAYER info) {
-//    NODE *new_node = (struct Node *) malloc(sizeof(struct Node));
 //
-//    new_node->player_info.firstName = info.firstName;
-//    new_node->player_info.secondName = info.secondName;
-//    new_node->player_info.points = info.points;
-//    new_node->next = *head_ref;
+//    fclose(fp);
 //
-//    *head_ref = new_node;
 //}
-//
-//void addNodeRecursively(NODE** head_ref, PLAYER new_data) {
-//    if (*head_ref == NULL) {
-//        addNode(head_ref, new_data);
-//    }
-//    else {
-//        addNodeRecursively(&((*head_ref)->next), new_data);
-//        (*head_ref)->next = *head_ref;
-//    }
-//}
-

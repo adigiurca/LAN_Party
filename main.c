@@ -85,4 +85,35 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-
+//int isEmpty(STACK* top){
+//    return top==NULL;
+//}
+//
+//NODE top(STACK* top){
+//    if (isEmpty(top)) return INT_MIN;
+//    return top->top->;
+//}
+//
+//void push(Node**top, Data v) {
+//    Node* newNode=(Node*)malloc(sizeof(Node));
+//    newNode->val=v;
+//    newNode->next=*top;
+//    *top=newNode;
+//}
+//
+//Data pop(Node**top) {
+//    if (isEmpty(*top)) return INT_MIN;
+//    Node *temp=(*top);
+//    Data aux=temp->val;
+//    *top=(*top)->next;
+//    free(temp);
+//    return aux;
+//}
+//
+//void deleteStack(Node**top){
+//    Node  *temp;
+//    while (!isEmpty(*top))
+//        temp=*top;
+//    *top=(*top)->next;
+//    free(temp);
+//}

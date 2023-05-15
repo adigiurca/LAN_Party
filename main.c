@@ -21,49 +21,71 @@ int main(int argc, char **argv) {
     printf("Numar echipe:\n");
     int number_of_teams = atoi(fgets(buffer, sizeof(buffer), file));
     printf("%d\n", number_of_teams);
+    printf("----------------\n");
+
+    int *teams_sum;
+    int min = 99;
+    teams_sum = (int *) calloc(number_of_teams, sizeof(int));
 
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
     for (int i = 0; i < number_of_teams; i++) {
+        int sum = 0;
         char team_name[50];
         memset(team_name, 0, 50);
         fgets(buffer, 100, file);
         line = strtok(buffer, " ");
         int number_of_players = atoi(line);
-        printf("%d ", number_of_players);
+        //printf("%d ", number_of_players);
         line = strtok(NULL, " ");
         while (line != NULL) {
             strcat(team_name, line);
             strcat(team_name, " ");
             line = strtok(NULL, " ");
         }
-        team_name[strlen(team_name) - 2] = '\0';
-        printf("%s", team_name);
+        team_name[strlen(team_name) - 1] = '\0';
+        //printf("%s", team_name);
 
         PLAYER players[number_of_players];
 
         for (int j = 0; j < number_of_players; j++) {
             fgets(buffer, 100, file);
             line = strtok(buffer, " ");
-            players[j].firstName = (char*)malloc(strlen(line) + 5);
+            players[j].firstName = (char *) malloc(strlen(line) + 5);
             strcpy(players[j].firstName, line);
-            printf("%s ", players[j].firstName);
+            //printf("%s ", players[j].firstName);
             line = strtok(NULL, " ");
-            players[j].secondName = (char*)malloc(strlen(line) + 5);
+            players[j].secondName = (char *) malloc(strlen(line) + 5);
             strcpy(players[j].secondName, line);
-            printf("%s ", players[j].secondName);
+            //printf("%s ", players[j].secondName);
             line = strtok(NULL, " ");
             players[j].points = atoi(line);
-            printf("%d\n", players[j].points);
+            //printf("%d\n", players[j].points);
+            sum += players[j].points;
         }
-        printf("\n");
+        teams_sum[i] = sum;
+        //printf("\n");
         fgets(buffer, 5, file);
         addToBeginning(&head, team_name, number_of_players, players);
     }
-
+    bubbleSort(teams_sum, number_of_teams);
+    for (int i = 0; i < number_of_teams; i++) {
+        printf("%d\n", teams_sum[i]);
+    }
     fclose(file);
+//    print(head);
+    int x;
+    for (x = 2; 1; x = x * 2)
+        if (x > number_of_teams){
+            x /= 2;
+            break;
+        }
+    printf("\n%d\n", x);
 
-    print(head);
+    for(int i = 0; i < number_of_teams - x; i++){
+        delete_node_by_value(&head, teams_sum[i]);
+    }
 
+    //print(head);
     return 0;
 }
 

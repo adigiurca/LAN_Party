@@ -1,4 +1,3 @@
-
 #include "functions.h"
 
 void print(NODE *head) {
@@ -17,29 +16,73 @@ void print(NODE *head) {
 
 void addToBeginning(NODE **head, char *team_name, int number_of_players, PLAYER *player) {
     // Alocare memorie pentru noul nod
-    NODE *newNode = (NODE *) malloc(sizeof(NODE));
-    if (newNode == NULL) {
+    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
+    if (newNODE == NULL) {
         printf("Eroare la alocarea memoriei!");
         return;
     }
 
-    newNode->team_name = (char *) malloc(30);
-    strcpy(newNode->team_name, team_name);
-    newNode->player_number = number_of_players;
+    newNODE->team_name = (char *) malloc(30);
+    strcpy(newNODE->team_name, team_name);
+    newNODE->player_number = number_of_players;
 
-    newNode->player_info = (PLAYER *) malloc(number_of_players * sizeof(PLAYER));
+    newNODE->player_info = (PLAYER *) malloc(number_of_players * sizeof(PLAYER));
 
     for (int i = 0; i < number_of_players; i++) {
-        newNode->player_info[i].firstName = (char *) malloc(15);
-        newNode->player_info[i].secondName = (char *) malloc(15);
-        newNode->player_info[i] = player[i];
-        //strcpy(newNode->player_info[i].firstName, player->firstName);
-        //strcpy(newNode->player_info[i].secondName, player->secondName);
-        //newNode->player_info[i].points = player->points;
+        newNODE->player_info[i].firstName = (char *) malloc(15);
+        newNODE->player_info[i].secondName = (char *) malloc(15);
+        newNODE->player_info[i] = player[i];
+        //strcpy(newNODE->player_info[i].firstName, player->firstName);
+        //strcpy(newNODE->player_info[i].secondName, player->secondName);
+        //newNODE->player_info[i].points = player->points;
     }
 
-    newNode->next = *head;
+    newNODE->next = *head;
 
-    *head = newNode;
+    *head = newNODE;
 }
 
+void delete_node_by_value(NODE **head, int value) {
+    NODE *current = *head;
+    NODE *prev = NULL;
+
+    int score = 0;
+
+    for (int i = 0; i < current->player_number; i++) {
+        score += current->player_info[i].points;
+    }
+
+    printf("%d\n", score);
+
+    while (score == value) {
+        *head = current->next;
+        free(current);
+        return;
+    }
+
+    while (current != NULL && score != value) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Value not found in the linked list.\n");
+        return;
+    }
+
+    prev->next = current->next;
+    free(current);
+}
+
+void bubbleSort(int arr[], int size) {
+    int i, j, temp;
+    for (i = 0; i < size - 1; i++) {
+        for (j = 0; j < size - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}

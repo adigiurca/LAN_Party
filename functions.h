@@ -20,3 +20,6 @@ void print(NODE *);
 
 void addToBeginning(NODE **, char *, int, PLAYER*);
 
+void delete_node_by_value(NODE**, int);
+
+void bubbleSort(int*, int);

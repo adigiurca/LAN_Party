@@ -1,9 +1,3 @@
-
-#ifndef LAN_PARTY_FUNCTIONS_H
-#define LAN_PARTY_FUNCTIONS_H
-
-#endif //LAN_PARTY_FUNCTIONS_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +18,5 @@ typedef struct Node {
 
 void print(NODE *);
 
-void addToBeginning(NODE**, NODE* );
+void addToBeginning(NODE **, char *, int, PLAYER*);
 
-void read_from_file_and_add_at_beginning(FILE*, NODE**, NODE* );

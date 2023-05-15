@@ -42,36 +42,35 @@ void addToBeginning(NODE **head, char *team_name, int number_of_players, PLAYER 
     *head = newNODE;
 }
 
-void delete_node_by_value(NODE **head, int value) {
-    NODE *current = *head;
-    NODE *prev = NULL;
-
+void delete_node_by_value(NODE **head, int v) {
+    if (*head == NULL) return;
+    NODE *headcopy = *head;
     int score = 0;
-
-    for (int i = 0; i < current->player_number; i++) {
-        score += current->player_info[i].points;
+    for (int i = 0; i < headcopy->player_number; i++) {
+        score += headcopy->player_info[i].points;
     }
-
-    printf("%d\n", score);
-
-    while (score == value) {
-        *head = current->next;
-        free(current);
+//    printf("%d %d\n", score, v);
+    if (score == v) {
+        *head = (*head)->next;
+        free(headcopy);
         return;
     }
 
-    while (current != NULL && score != value) {
-        prev = current;
-        current = current->next;
+    NODE *prev = *head;
+    while (headcopy != NULL) {
+        score = 0;
+        for (int i = 0; i < headcopy->player_number; i++) {
+            score += headcopy->player_info[i].points;
+        }
+        if (score == v) {
+            prev->next = headcopy->next;
+            free(headcopy);
+            return;
+        } else {
+            prev = headcopy;
+            headcopy = headcopy->next;
+        }
     }
-
-    if (current == NULL) {
-        printf("Value not found in the linked list.\n");
-        return;
-    }
-
-    prev->next = current->next;
-    free(current);
 }
 
 void bubbleSort(int arr[], int size) {

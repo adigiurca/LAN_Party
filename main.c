@@ -72,20 +72,19 @@ int main(int argc, char **argv) {
         printf("%d\n", teams_sum[i]);
     }
     fclose(file);
-//    print(head);
+    print(head);
+    printf("\n\n\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
         if (x > number_of_teams){
             x /= 2;
             break;
         }
-    printf("\n%d\n", x);
-
     for(int i = 0; i < number_of_teams - x; i++){
         delete_node_by_value(&head, teams_sum[i]);
     }
 
-    //print(head);
+    print(head);
     return 0;
 }
 

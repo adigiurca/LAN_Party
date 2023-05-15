@@ -68,12 +68,9 @@ int main(int argc, char **argv) {
         addToBeginning(&head, team_name, number_of_players, players);
     }
     bubbleSort(teams_sum, number_of_teams);
-    for (int i = 0; i < number_of_teams; i++) {
-        printf("%d\n", teams_sum[i]);
-    }
     fclose(file);
     print(head);
-    printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj\n\n");
+    printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
         if (x > number_of_teams){

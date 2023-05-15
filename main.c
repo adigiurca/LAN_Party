@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     }
     fclose(file);
     print(head);
-    printf("\n\n\n\n");
+    printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
         if (x > number_of_teams){

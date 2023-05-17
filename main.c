@@ -10,12 +10,13 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    char *buffer = NULL;
-    buffer = (char *) malloc(100);
     NODE *head = NULL;
     NODE *team;
     team = (NODE *) malloc(sizeof(NODE));
     team->team_name = (char *) malloc(30);
+
+    char *buffer = NULL;
+    buffer = (char *) malloc(100);
     char *line;
 
     printf("Numar echipe:\n");
@@ -65,9 +66,9 @@ int main(int argc, char **argv) {
         teams_sum[i] = sum;
         //printf("\n");
         fgets(buffer, 5, file);
-        addToBeginning(&head, team_name, number_of_players, players);
+        add_to_beginning(&head, team_name, number_of_players, players);
     }
-    bubbleSort(teams_sum, number_of_teams);
+    bubble_sort(teams_sum, number_of_teams);
     fclose(file);
     print(head);
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
@@ -84,36 +85,3 @@ int main(int argc, char **argv) {
     print(head);
     return 0;
 }
-
-//int isEmpty(STACK* top){
-//    return top==NULL;
-//}
-//
-//NODE top(STACK* top){
-//    if (isEmpty(top)) return INT_MIN;
-//    return top->top->;
-//}
-//
-//void push(Node**top, Data v) {
-//    Node* newNode=(Node*)malloc(sizeof(Node));
-//    newNode->val=v;
-//    newNode->next=*top;
-//    *top=newNode;
-//}
-//
-//Data pop(Node**top) {
-//    if (isEmpty(*top)) return INT_MIN;
-//    Node *temp=(*top);
-//    Data aux=temp->val;
-//    *top=(*top)->next;
-//    free(temp);
-//    return aux;
-//}
-//
-//void deleteStack(Node**top){
-//    Node  *temp;
-//    while (!isEmpty(*top))
-//        temp=*top;
-//    *top=(*top)->next;
-//    free(temp);
-//}

@@ -14,7 +14,7 @@ void print(NODE *head) {
 }
 
 
-void addToBeginning(NODE **head, char *team_name, int number_of_players, PLAYER *player) {
+void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYER *player) {
     // Alocare memorie pentru noul nod
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     if (newNODE == NULL) {
@@ -73,7 +73,7 @@ void delete_node_by_value(NODE **head, int v) {
     }
 }
 
-void bubbleSort(int arr[], int size) {
+void bubble_sort(int arr[], int size) {
     int i, j, temp;
     for (i = 0; i < size - 1; i++) {
         for (j = 0; j < size - 1 - i; j++) {
@@ -85,3 +85,59 @@ void bubbleSort(int arr[], int size) {
         }
     }
 }
+
+//QUEUE_NODE* create_node(PLAYER* players, char* team_name, int player_number) {
+//    QUEUE_NODE* newNode = (QUEUE_NODE*)malloc(sizeof(QUEUE_NODE));
+//    if (newNode == NULL) {
+//        printf("Eroare la alocarea memoriei!");
+//        return NULL;
+//    }
+//
+//    newNode->players = players;
+//    newNode->team_name = strdup(team_name);
+//    newNode->player_number = player_number;
+//    newNode->next = NULL;
+//
+//    return newNode;
+//}
+//
+//void enQueue(QUEUE* queue, PLAYER* players, char* team_name, int player_number) {
+//    QUEUE_NODE* newNode = create_node(players, team_name, player_number);
+//    if (newNode == NULL) {
+//        return;
+//    }
+//
+//    if (queue->rear == NULL) {
+//        queue->front = newNode;
+//        queue->rear = newNode;
+//    } else {
+//        queue->rear->next = newNode;
+//        queue->rear = newNode;
+//    }
+//}
+//
+//void print_queue(QUEUE* queue) {
+//    if (queue->front == NULL) {
+//        printf("Coada este goala.\n");
+//        return;
+//    }
+//
+//    QUEUE_NODE* currentNode = queue->front;
+//    while (currentNode != NULL) {
+//        printf("Echipa: %s, Numarul de jucatori: %d\n", currentNode->team_name, currentNode->player_number);
+//        currentNode = currentNode->next;
+//    }
+//}
+//
+//void free_queue(QUEUE* queue) {
+//    QUEUE_NODE* currentNode = queue->front;
+//    while (currentNode != NULL) {
+//        QUEUE_NODE* nextNode = currentNode->next;
+//        free(currentNode->team_name);
+//        free(currentNode);
+//        currentNode = nextNode;
+//    }
+//
+//    queue->front = NULL;
+//    queue->rear = NULL;
+//}

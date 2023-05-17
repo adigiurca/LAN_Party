@@ -1,8 +1,5 @@
 #include "functions.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 int main(int argc, char **argv) {
     FILE *file = fopen(argv[2], "r");
     if (file == NULL) {
@@ -25,7 +22,6 @@ int main(int argc, char **argv) {
     printf("----------------\n");
 
     int *teams_sum;
-    int min = 99;
     teams_sum = (int *) calloc(number_of_teams, sizeof(int));
 
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
@@ -74,14 +70,15 @@ int main(int argc, char **argv) {
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
-        if (x > number_of_teams){
+        if (x > number_of_teams) {
             x /= 2;
             break;
         }
-    for(int i = 0; i < number_of_teams - x; i++){
+    for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
 
     print(head);
+
     return 0;
 }

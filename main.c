@@ -1,7 +1,7 @@
 #include "functions.h"
 
 int main(int argc, char **argv) {
-    FILE *file = fopen(argv[2], "r");
+    FILE *file = fopen("C:\\Users\\agiur\\OneDrive\\Documents\\GitHub\\LAN_Party\\d.in", "r");
     if (file == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
@@ -62,11 +62,11 @@ int main(int argc, char **argv) {
         teams_sum[i] = sum;
         //printf("\n");
         fgets(buffer, 5, file);
-        add_to_beginning(&head, team_name, number_of_players, players);
+        add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
     bubble_sort(teams_sum, number_of_teams);
     fclose(file);
-    print(head);
+    //print(head);
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
@@ -80,5 +80,34 @@ int main(int argc, char **argv) {
 
     print(head);
 
+    QUEUE* teamQueue = (QUEUE*)malloc(sizeof(QUEUE));
+    teamQueue->front = NULL;
+    teamQueue->rear = NULL;
+
+    QUEUE* matchQueue = (QUEUE*)malloc(sizeof(QUEUE));
+    matchQueue->front = NULL;
+    matchQueue->rear = NULL;
+
+    STACK* winnersStack = (STACK*)malloc(sizeof(STACK));
+    winnersStack->top = NULL;
+
+    STACK* losersStack = (STACK*)malloc(sizeof(STACK));
+    losersStack->top = NULL;
+
+    add_nodes_to_queue(matchQueue, head);
+
+    playMatches(teamQueue, matchQueue, winnersStack, losersStack, number_of_teams - x);
+
+    printf("Echipele castigatoare:\n");
+    QUEUE_NODE* winnerNode = matchQueue->front;
+    while (winnerNode != NULL) {
+        printf("%s\n", winnerNode->team_name);
+        winnerNode = winnerNode->next;
+    }
+
+    freeStack(winnersStack);
+    freeStack(losersStack);
+    free(teamQueue);
+    free(matchQueue);
     return 0;
 }

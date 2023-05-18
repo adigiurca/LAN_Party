@@ -94,7 +94,7 @@ QUEUE_NODE *createNode(PLAYER *players, char *team_name, int player_number) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
-
+    newNode->players = (PLAYER *) malloc(player_number * sizeof(PLAYER));
     newNode->players = players;
     newNode->team_name = strdup(team_name);
     newNode->player_number = player_number;
@@ -138,10 +138,10 @@ void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
 TEAM *deQueue(QUEUE *queue) {
     NODE *aux = (NODE *) malloc(sizeof(NODE));
     TEAM *d = (TEAM *) malloc(sizeof(TEAM));
-    aux->team_name = (char *) malloc(sizeof(30));
-    d->team_name = (char *) malloc(sizeof(30));
-    d->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    aux->team_name = (char *) malloc(30);
+    d->team_name = (char *) malloc(30);
     aux->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    d->player_info = (PLAYER *) malloc(sizeof(PLAYER));\
     if (isEmpty(queue)) return 0;
     aux = queue->front;
     strcpy(d->team_name, aux->team_name);
@@ -230,22 +230,22 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
         TEAM *first_team = deQueue(queue);
         TEAM *second_team = deQueue(queue);
         if (first_team->score == second_team->score) {
-            push(winner_stack, first_team);
-            push(loser_stack, second_team);
+            push(winner_stack, &first_team);
+            push(loser_stack, &second_team);
             first_team->score++;
             free(first_team);
             free(second_team);
         };
         if (first_team->score > second_team->score) {
-            push(winner_stack, first_team);
+            push(winner_stack, &first_team);
             first_team->score++;
-            push(loser_stack, second_team);
+            push(loser_stack, &second_team);
             free(first_team);
             free(second_team);
         } else {
-            push(winner_stack, second_team);
+            push(winner_stack, &second_team);
             second_team->score++;
-            push(loser_stack, second_team);
+            push(loser_stack, &second_team);
             free(first_team);
             free(second_team);
         }

@@ -58,8 +58,6 @@ void bubble_sort(int *, int);
 
 TEAM *deQueue(QUEUE *);
 
-void playMatches(QUEUE *, QUEUE *, STACK *, STACK *, int);
-
 void freeStack(STACK *);
 
 void add_nodes_to_queue(QUEUE *, NODE *);

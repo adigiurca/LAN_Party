@@ -88,49 +88,53 @@ void bubble_sort(int arr[], int size) {
     }
 }
 
-QUEUE_NODE *createNode(PLAYER *players, char *team_name, int player_number) {
-    QUEUE_NODE *newNode = (QUEUE_NODE *) malloc(sizeof(QUEUE_NODE));
-    if (newNode == NULL) {
+QUEUE_NODE *createNODE(PLAYER *players, char *team_name, int player_number) {
+    QUEUE_NODE *newNODE = (QUEUE_NODE *) malloc(sizeof(QUEUE_NODE));
+    if (newNODE == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
-    newNode->players = (PLAYER *) malloc(player_number * sizeof(PLAYER));
-    newNode->players = players;
-    newNode->team_name = strdup(team_name);
-    newNode->player_number = player_number;
-    newNode->next = NULL;
+    newNODE->players = (PLAYER *) malloc(player_number * sizeof(PLAYER));
+    newNODE->players = players;
+    newNODE->team_name = strdup(team_name);
+    newNODE->player_number = player_number;
+    newNODE->next = NULL;
 
-    return newNode;
+    return newNODE;
 }
 
 int isEmpty(QUEUE *q) {
     return (q->front == NULL);
 }
 
-void enQueue(QUEUE *queue, PLAYER *players, char *team_name, int player_number) {
-    QUEUE_NODE *newNode = createNode(players, team_name, player_number);
-    if (newNode == NULL) {
-        return;
+void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number) {
+    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
+    newNODE->team_name = (char *) malloc(30);
+    newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    newNODE->player_info->firstName = (char *) malloc(15);
+    newNODE->player_info->secondName = (char *) malloc(15);
+    newNODE->player_info = players;
+    newNODE->team_name = team_name;
+    newNODE->player_number = player_number;
+    newNODE->next = NULL;
+// nodurile noi se adauga la finalul cozii
+    if (q->rear == NULL) q->rear = newNODE;
+// daca nu exista niciun nod in coada
+    else {
+        (q->rear)->next = newNODE;
+        (q->rear) = newNODE;
     }
-
-    if (queue->rear == NULL) {
-        // Daca coada este goala
-        queue->front = newNode;
-        queue->rear = newNode;
-    } else {
-        // Daca coada nu este goala
-        queue->rear->next = newNode;
-        queue->rear = newNode;
-    }
+// daca exita un singur element in coada
+    if (q->front == NULL) q->front = q->rear;
 }
 
 // Functie pentru adaugarea unui nod nou la coada
 void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
-    NODE *currentNode = head;
+    NODE *currentNODE = head;
 
-    while (currentNode != NULL) {
-        enQueue(matchQueue, currentNode->player_info, currentNode->team_name, currentNode->player_number);
-        currentNode = currentNode->next;
+    while (currentNODE != NULL) {
+        enQueue(matchQueue, currentNODE->team_name, currentNODE->player_info, currentNODE->player_number);
+        currentNODE = currentNODE->next;
     }
 }
 
@@ -161,40 +165,40 @@ void printQueue(QUEUE *queue) {
         return;
     }
 
-    QUEUE_NODE *currentNode = queue->front;
-    while (currentNode != NULL) {
-        printf("Echipa: %s, Numarul de jucatori: %d\n", currentNode->team_name, currentNode->player_number);
-        currentNode = currentNode->next;
+    QUEUE_NODE *currentNODE = queue->front;
+    while (currentNODE != NULL) {
+        printf("Echipa: %s, Numarul de jucatori: %d\n", currentNODE->team_name, currentNODE->player_number);
+        currentNODE = currentNODE->next;
     }
 }
 
 // Functie pentru crearea unui nod nou pentru stiva
-STACK_NODE *createStackNode(NODE *team) {
-    STACK_NODE *newNode = (STACK_NODE *) malloc(sizeof(STACK_NODE));
-    if (newNode == NULL) {
+STACK_NODE *createStackNODE(NODE *team) {
+    STACK_NODE *newNODE = (STACK_NODE *) malloc(sizeof(STACK_NODE));
+    if (newNODE == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
-    newNode->team_name = (char *) malloc(50);
-    newNode->player_info = (PLAYER *) malloc(sizeof(PLAYER));
-    strcpy(newNode->team_name, team->team_name);
-    newNode->score = team->score;
-    newNode->player_number = team->player_number;
-    newNode->player_info = team->player_info;
-    newNode->next = NULL;
+    newNODE->team_name = (char *) malloc(50);
+    newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    strcpy(newNODE->team_name, team->team_name);
+    newNODE->score = team->score;
+    newNODE->player_number = team->player_number;
+    newNODE->player_info = team->player_info;
+    newNODE->next = NULL;
 
-    return newNode;
+    return newNODE;
 }
 
 // Functie pentru adaugarea unui nod nou la stiva
 void push(STACK *stack, NODE *team) {
-    STACK_NODE *newNode = createStackNode(team);
-    if (newNode == NULL) {
+    STACK_NODE *newNODE = createStackNODE(team);
+    if (newNODE == NULL) {
         return;
     }
 
-    newNode->next = stack->top;
-    stack->top = newNode;
+    newNODE->next = stack->top;
+    stack->top = newNODE;
 }
 
 // Functie pentru extragerea unui nod din stiva
@@ -203,23 +207,23 @@ char *pop(STACK *stack) {
         return NULL; // Stiva este goala
     }
 
-    STACK_NODE *topNode = stack->top;
+    STACK_NODE *topNODE = stack->top;
     stack->top = stack->top->next;
 
-    char *team_name = topNode->team_name;
-    free(topNode);
+    char *team_name = topNODE->team_name;
+    free(topNODE);
 
     return team_name;
 }
 
 // Functie pentru eliberarea memoriei ocupate de stiva
 void freeStack(STACK *stack) {
-    STACK_NODE *currentNode = stack->top;
-    while (currentNode != NULL) {
-        STACK_NODE *nextNode = currentNode->next;
-        free(currentNode->team_name);
-        free(currentNode);
-        currentNode = nextNode;
+    STACK_NODE *currentNODE = stack->top;
+    while (currentNODE != NULL) {
+        STACK_NODE *nextNODE = currentNODE->next;
+        free(currentNODE->team_name);
+        free(currentNODE);
+        currentNODE = nextNODE;
     }
 
     stack->top = NULL;

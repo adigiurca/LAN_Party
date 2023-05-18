@@ -8,6 +8,13 @@ typedef struct Player {
     int points;
 } PLAYER;
 
+typedef struct Team {
+    PLAYER *player_info;
+    char *team_name;
+    int score;
+    int player_number;
+}TEAM;
+
 typedef struct List_Node {
     PLAYER *player_info;
     char *team_name;
@@ -30,7 +37,10 @@ typedef struct Queue {
 } QUEUE;
 
 typedef struct Stack_Node {
+    PLAYER *player_info;
     char *team_name;
+    int score;
+    int player_number;
     struct Stack_Node *next;
 } STACK_NODE;
 
@@ -46,10 +56,14 @@ void delete_node_by_value(NODE **, int);
 
 void bubble_sort(int *, int);
 
-QUEUE_NODE *deQueue(QUEUE *);
+TEAM *deQueue(QUEUE *);
 
 void playMatches(QUEUE *, QUEUE *, STACK *, STACK *, int);
 
 void freeStack(STACK *);
 
 void add_nodes_to_queue(QUEUE *, NODE *);
+
+void play_2v2_matches(QUEUE *, STACK *, STACK *);
+
+void printQueue(QUEUE*);

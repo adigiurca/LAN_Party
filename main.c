@@ -80,10 +80,6 @@ int main(int argc, char **argv) {
 
     print(head);
 
-    QUEUE* teamQueue = (QUEUE*)malloc(sizeof(QUEUE));
-    teamQueue->front = NULL;
-    teamQueue->rear = NULL;
-
     QUEUE* matchQueue = (QUEUE*)malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
     matchQueue->rear = NULL;
@@ -96,18 +92,11 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-    playMatches(teamQueue, matchQueue, winnersStack, losersStack, number_of_teams - x);
+    play_2v2_matches(matchQueue, winnersStack, losersStack);
 
-    printf("Echipele castigatoare:\n");
-    QUEUE_NODE* winnerNode = matchQueue->front;
-    while (winnerNode != NULL) {
-        printf("%s\n", winnerNode->team_name);
-        winnerNode = winnerNode->next;
-    }
+    printQueue(matchQueue);
 
-    freeStack(winnersStack);
     freeStack(losersStack);
-    free(teamQueue);
     free(matchQueue);
     return 0;
 }

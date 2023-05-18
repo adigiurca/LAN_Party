@@ -103,6 +103,10 @@ QUEUE_NODE *createNode(PLAYER *players, char *team_name, int player_number) {
     return newNode;
 }
 
+int isEmpty(QUEUE *q) {
+    return (q->front == NULL);
+}
+
 void enQueue(QUEUE *queue, PLAYER *players, char *team_name, int player_number) {
     QUEUE_NODE *newNode = createNode(players, team_name, player_number);
     if (newNode == NULL) {
@@ -131,20 +135,23 @@ void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
 }
 
 // Functie pentru extragerea unui nod din coada
-QUEUE_NODE *deQueue(QUEUE *queue) {
-    if (queue->front == NULL) {
-        return NULL; // Coada este goala
-    }
-
-    QUEUE_NODE *frontNode = queue->front;
-    queue->front = queue->front->next;
-
-    if (queue->front == NULL) {
-        // Daca coada a devenit goala, actualizam si rear
-        queue->rear = NULL;
-    }
-
-    return frontNode;
+TEAM *deQueue(QUEUE *queue) {
+    NODE *aux = (NODE *) malloc(sizeof(NODE));
+    TEAM *d = (TEAM *) malloc(sizeof(TEAM));
+    aux->team_name = (char *) malloc(sizeof(30));
+    d->team_name = (char *) malloc(sizeof(30));
+    d->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    aux->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    if (isEmpty(queue)) return 0;
+    aux = queue->front;
+    strcpy(d->team_name, aux->team_name);
+    d->player_info = aux->player_info;
+    d->player_number = aux->player_number;
+    d->score = aux->score;
+    queue->front = (queue->front)->next;
+    free(aux);
+    free(d);
+    return d;
 }
 
 // Functie pentru afisarea continutului cozii
@@ -162,22 +169,26 @@ void printQueue(QUEUE *queue) {
 }
 
 // Functie pentru crearea unui nod nou pentru stiva
-STACK_NODE *createStackNode(char *team_name) {
+STACK_NODE *createStackNode(NODE *team) {
     STACK_NODE *newNode = (STACK_NODE *) malloc(sizeof(STACK_NODE));
     if (newNode == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
-
-    newNode->team_name = strdup(team_name);
+    newNode->team_name = (char *) malloc(50);
+    newNode->player_info = (PLAYER *) malloc(sizeof(PLAYER));
+    strcpy(newNode->team_name, team->team_name);
+    newNode->score = team->score;
+    newNode->player_number = team->player_number;
+    newNode->player_info = team->player_info;
     newNode->next = NULL;
 
     return newNode;
 }
 
 // Functie pentru adaugarea unui nod nou la stiva
-void push(STACK *stack, char *team_name) {
-    STACK_NODE *newNode = createStackNode(team_name);
+void push(STACK *stack, NODE *team) {
+    STACK_NODE *newNode = createStackNode(team);
     if (newNode == NULL) {
         return;
     }
@@ -214,62 +225,29 @@ void freeStack(STACK *stack) {
     stack->top = NULL;
 }
 
-// Functie pentru adaugarea echipei in coada de meciuri
-void addMatchToQueue(QUEUE *matchQueue, STACK *winnersStack, char *team_name) {
-    if (matchQueue->rear == NULL) {
-        // Adaugam echipa in coada de meciuri
-        enQueue(matchQueue, NULL, team_name, 0);
-    } else {
-        // Adaugam echipa in stiva de castigatori
-        push(winnersStack, team_name);
-    }
-}
-
-// Functie pentru efectuarea meciurilor
-void playMatches(QUEUE *teamQueue, QUEUE *matchQueue, STACK *winnersStack, STACK *losersStack, int num_teams) {
-    while (teamQueue->front != NULL) {
-        // Extragem primele doua echipe din coada de echipe
-        QUEUE_NODE *team1 = deQueue(teamQueue);
-        QUEUE_NODE *team2 = deQueue(teamQueue);
-
-        // Adaugam meciul in coada de meciuri
-        addMatchToQueue(matchQueue, winnersStack, team1->team_name);
-        addMatchToQueue(matchQueue, winnersStack, team2->team_name);
-
-        if (team1->score == team2->score) {
-            push(losersStack, team2->team_name);
-            team1->score++;
+void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
+    while (isEmpty(queue) != 1) {
+        TEAM *first_team = deQueue(queue);
+        TEAM *second_team = deQueue(queue);
+        if (first_team->score == second_team->score) {
+            push(winner_stack, first_team);
+            push(loser_stack, second_team);
+            first_team->score++;
+            free(first_team);
+            free(second_team);
+        };
+        if (first_team->score > second_team->score) {
+            push(winner_stack, first_team);
+            first_team->score++;
+            push(loser_stack, second_team);
+            free(first_team);
+            free(second_team);
         } else {
-            if (team1->score < team2->score) {
-                team2->score++;
-                push(losersStack, team1->team_name);
-            } else {
-                push(losersStack, team2->team_name);
-            }
-        }
-
-        free(team1->team_name);
-        free(team1);
-        free(team2->team_name);
-        free(team2);
-
-        // Daca toate echipele au fost adaugate in coada de meciuri
-        if (matchQueue->rear != NULL && matchQueue->rear->player_number == num_teams) {
-            // Extragem echipele din stiva de castigatori si le adaugam in coada de echipe
-            while (winnersStack->top != NULL) {
-                char *team_name = pop(winnersStack);
-                enQueue(teamQueue, NULL, team_name, 0);
-            }
-
-            // Eliberam stiva de invinsi
-            freeStack(losersStack);
-
-            // Golim coada de meciuri
-            while (matchQueue->front != NULL) {
-                QUEUE_NODE *matchNode = deQueue(matchQueue);
-                free(matchNode->team_name);
-                free(matchNode);
-            }
+            push(winner_stack, second_team);
+            second_team->score++;
+            push(loser_stack, second_team);
+            free(first_team);
+            free(second_team);
         }
     }
 }

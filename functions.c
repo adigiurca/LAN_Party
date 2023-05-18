@@ -107,13 +107,14 @@ int isEmpty(QUEUE *q) {
     return (q->front == NULL);
 }
 
-void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number) {
+void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number, int score) {
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     newNODE->team_name = (char *) malloc(30);
     newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
     newNODE->player_info->firstName = (char *) malloc(15);
     newNODE->player_info->secondName = (char *) malloc(15);
     newNODE->player_info = players;
+    newNODE->score = score;
     newNODE->team_name = team_name;
     newNODE->player_number = player_number;
     newNODE->next = NULL;
@@ -133,7 +134,7 @@ void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
     NODE *currentNODE = head;
 
     while (currentNODE != NULL) {
-        enQueue(matchQueue, currentNODE->team_name, currentNODE->player_info, currentNODE->player_number);
+        enQueue(matchQueue, currentNODE->team_name, currentNODE->player_info, currentNODE->player_number, currentNODE->score);
         currentNODE = currentNODE->next;
     }
 }
@@ -234,22 +235,22 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
         TEAM *first_team = deQueue(queue);
         TEAM *second_team = deQueue(queue);
         if (first_team->score == second_team->score) {
-            push(winner_stack, &first_team);
-            push(loser_stack, &second_team);
+            push(winner_stack, first_team);
+            push(loser_stack, second_team);
             first_team->score++;
             free(first_team);
             free(second_team);
         };
         if (first_team->score > second_team->score) {
-            push(winner_stack, &first_team);
+            push(winner_stack, first_team);
             first_team->score++;
-            push(loser_stack, &second_team);
+            push(loser_stack, second_team);
             free(first_team);
             free(second_team);
         } else {
-            push(winner_stack, &second_team);
+            push(winner_stack, second_team);
             second_team->score++;
-            push(loser_stack, &second_team);
+            push(loser_stack, second_team);
             free(first_team);
             free(second_team);
         }

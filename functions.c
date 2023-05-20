@@ -4,7 +4,6 @@ void print(NODE *head) {
     while (head != NULL) {
         printf("%d ", head->player_number);
         printf("%s", head->team_name);
-        printf("%d\n", head->score);
         for (int i = 0; i < head->player_number; i++) {
             printf("%s  %s  %d \n", head->player_info[i].firstName, head->player_info[i].secondName,
                    head->player_info[i].points);
@@ -109,10 +108,10 @@ int isEmpty(QUEUE *q) {
 
 void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number, int score) {
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
-    newNODE->team_name = (char *) malloc(30);
+    newNODE->team_name = (char *) malloc(25);
     newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
-    newNODE->player_info->firstName = (char *) malloc(15);
-    newNODE->player_info->secondName = (char *) malloc(15);
+    newNODE->player_info->firstName = (char *) malloc(10);
+    newNODE->player_info->secondName = (char *) malloc(10);
     newNODE->player_info = players;
     newNODE->score = score;
     newNODE->team_name = team_name;
@@ -146,7 +145,7 @@ TEAM *deQueue(QUEUE *queue) {
     aux->team_name = (char *) malloc(30);
     d->team_name = (char *) malloc(30);
     aux->player_info = (PLAYER *) malloc(sizeof(PLAYER));
-    d->player_info = (PLAYER *) malloc(sizeof(PLAYER));\
+    d->player_info = (PLAYER *) malloc(sizeof(PLAYER));
     if (isEmpty(queue)) return 0;
     aux = queue->front;
     strcpy(d->team_name, aux->team_name);
@@ -168,7 +167,9 @@ void printQueue(QUEUE *queue) {
 
     QUEUE_NODE *currentNODE = queue->front;
     while (currentNODE != NULL) {
-        printf("Echipa: %s, Numarul de jucatori: %d\n", currentNODE->team_name, currentNODE->player_number);
+        printf("Echipa: %s\n", currentNODE->team_name);
+        printf("Numarul de jucatori: %d\n", currentNODE->player_number);
+        printf("Punctajul echipei: %d\n", currentNODE->score);
         currentNODE = currentNODE->next;
     }
 }

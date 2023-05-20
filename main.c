@@ -92,11 +92,11 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-    play_2v2_matches(matchQueue, winnersStack, losersStack);
+    //play_2v2_matches(matchQueue, winnersStack, losersStack);
 
     printQueue(matchQueue);
 
-    freeStack(losersStack);
-    free(matchQueue);
+    //freeStack(losersStack);
+    //free(matchQueue);
     return 0;
 }

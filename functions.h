@@ -65,3 +65,7 @@ void add_nodes_to_queue(QUEUE *, NODE *);
 void play_2v2_matches(QUEUE *, STACK *, STACK *);
 
 void printQueue(QUEUE*);
+
+void printStack(STACK*);
+
+int isTeamInStack(STACK*, TEAM*);

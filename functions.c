@@ -99,11 +99,34 @@ QUEUE_NODE *createNODE(PLAYER *players, char *team_name, int player_number) {
     return newNODE;
 }
 
+void printStack(STACK *stack) {
+
+    NODE *current = stack->top;
+    while (current != NULL) {
+        printf("%s\n", current->team_name);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+
 int isEmpty(QUEUE *q) {
     return (q->front == NULL);
 }
 
-void enQueue(QUEUE *q, NODE* team) {
+int isTeamInStack(STACK *stack, TEAM *team) {
+    NODE *current = stack->top;
+    while (current != NULL) {
+        if (strcmp(current->team_name, team->team_name) == 0) {
+            return 1;  // Team found in the queue
+        }
+        current = current->next;
+    }
+    return 0;  // Team not found in the queue
+}
+
+
+void enQueue(QUEUE *q, NODE *team) {
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     if (newNODE == NULL) {
         printf("Eroare la alocarea memoriei!");
@@ -147,21 +170,21 @@ TEAM *deQueue(QUEUE *queue) {
         return NULL;
 
     NODE *aux = queue->front;
-    TEAM *d = (TEAM *)malloc(sizeof(TEAM));
+    TEAM *d = (TEAM *) malloc(sizeof(TEAM));
     if (d == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
 
-    d->team_name = (char *)malloc(70);
+    d->team_name = (char *) malloc(70);
     strcpy(d->team_name, aux->team_name);
     d->player_number = aux->player_number;
     d->score = aux->score;
 
-    d->player_info = (PLAYER *)malloc(d->player_number * sizeof(PLAYER));
+    d->player_info = (PLAYER *) malloc(d->player_number * sizeof(PLAYER));
     for (int i = 0; i < d->player_number; i++) {
-        d->player_info[i].firstName = (char *)malloc(15);
-        d->player_info[i].secondName = (char *)malloc(15);
+        d->player_info[i].firstName = (char *) malloc(15);
+        d->player_info[i].secondName = (char *) malloc(15);
         d->player_info[i] = aux->player_info[i];
     }
 
@@ -197,7 +220,7 @@ STACK_NODE *createStackNODE(NODE *team) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
     }
-    newNODE->team_name = (char *) malloc(50);
+    newNODE->team_name = (char *) malloc(70);
     newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
     strcpy(newNODE->team_name, team->team_name);
     newNODE->score = team->score;
@@ -209,7 +232,7 @@ STACK_NODE *createStackNODE(NODE *team) {
 }
 
 // Functie pentru adaugarea unui nod nou la stiva
-void push(STACK *stack, TEAM *team) {
+void push(STACK *stack, NODE *team) {
     STACK_NODE *newNODE = createStackNODE(team);
     if (newNODE == NULL) {
         return;
@@ -249,21 +272,22 @@ void freeStack(STACK *stack) {
 
 void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
     while (isEmpty(queue) != 1) {
-        TEAM *first_team = deQueue(queue);
-        TEAM *second_team = deQueue(queue);
+        NODE *first_team = deQueue(queue);
+        NODE *second_team = deQueue(queue);
         if (first_team->score == second_team->score) {
+            first_team->score++;
             push(winner_stack, first_team);
             push(loser_stack, second_team);
-            first_team->score++;
         };
         if (first_team->score > second_team->score) {
-            push(winner_stack, first_team);
             first_team->score++;
+            push(winner_stack, first_team);
             push(loser_stack, second_team);
-        } else {
-            push(winner_stack, second_team);
-            second_team->score++;
-            push(loser_stack, second_team);
+            if (first_team->score < second_team->score) {
+                second_team->score++;
+                push(winner_stack, second_team);
+                push(loser_stack, first_team);
+            }
         }
     }
 }

@@ -99,7 +99,10 @@ int main(int argc, char **argv) {
 
     printQueue(matchQueue);
 
+    printf("\n\n");
 
+    printStack(winnersStack);
+    printStack(losersStack);
 
     //freeStack(losersStack);
     //free(matchQueue);

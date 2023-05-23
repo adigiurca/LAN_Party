@@ -11,14 +11,14 @@ typedef struct Player {
 typedef struct Team {
     PLAYER *player_info;
     char *team_name;
-    int score;
+    float score;
     int player_number;
 }TEAM;
 
 typedef struct List_Node {
     PLAYER *player_info;
     char *team_name;
-    int score;
+    float score;
     int player_number;
     struct List_Node *next;
 } NODE;
@@ -26,7 +26,7 @@ typedef struct List_Node {
 typedef struct Queue_Node {
     PLAYER *players;
     char *team_name;
-    int score;
+    float score;
     int player_number;
     struct Queue_Node *next;
 } QUEUE_NODE;
@@ -39,7 +39,7 @@ typedef struct Queue {
 typedef struct Stack_Node {
     PLAYER *player_info;
     char *team_name;
-    int score;
+    float score;
     int player_number;
     struct Stack_Node *next;
 } STACK_NODE;
@@ -50,11 +50,11 @@ typedef struct Stack {
 
 void print(NODE *);
 
-void add_to_beginning(NODE **, char *, int, PLAYER *, int);
+void add_to_beginning(NODE **, char *, int, PLAYER *, float);
 
-void delete_node_by_value(NODE **, int);
+void delete_node_by_value(NODE **, float);
 
-void bubble_sort(int *, int);
+void bubble_sort(float *, int);
 
 TEAM *deQueue(QUEUE *);
 

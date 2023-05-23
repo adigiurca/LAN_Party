@@ -14,7 +14,7 @@ void print(NODE *head) {
 }
 
 
-void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYER *player, int score) {
+void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYER *player, float score) {
     // Alocare memorie pentru noul nod
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     if (newNODE == NULL) {
@@ -43,13 +43,14 @@ void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYE
     *head = newNODE;
 }
 
-void delete_node_by_value(NODE **head, int v) {
+void delete_node_by_value(NODE **head, float v) {
     if (*head == NULL) return;
     NODE *headcopy = *head;
-    int score = 0;
+    float score = 0;
     for (int i = 0; i < headcopy->player_number; i++) {
         score += headcopy->player_info[i].points;
     }
+    score = score/headcopy->player_number;
 //    printf("%d %d\n", score, v);
     if (score == v) {
         *head = (*head)->next;
@@ -74,8 +75,9 @@ void delete_node_by_value(NODE **head, int v) {
     }
 }
 
-void bubble_sort(int arr[], int size) {
-    int i, j, temp;
+void bubble_sort(float arr[], int size) {
+    int i, j;
+    float temp;
     for (i = 0; i < size - 1; i++) {
         for (j = 0; j < size - 1 - i; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -106,7 +108,7 @@ int isEmpty(QUEUE *q) {
     return (q->front == NULL);
 }
 
-void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number, int score) {
+void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number, float score) {
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     newNODE->team_name = (char *) malloc(25);
     newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
@@ -126,6 +128,7 @@ void enQueue(QUEUE *q, char* team_name, PLAYER *players, int player_number, int 
     }
 // daca exita un singur element in coada
     if (q->front == NULL) q->front = q->rear;
+    free(newNODE);
 }
 
 // Functie pentru adaugarea unui nod nou la coada
@@ -169,7 +172,7 @@ void printQueue(QUEUE *queue) {
     while (currentNODE != NULL) {
         printf("Echipa: %s\n", currentNODE->team_name);
         printf("Numarul de jucatori: %d\n", currentNODE->player_number);
-        printf("Punctajul echipei: %d\n", currentNODE->score);
+        printf("Punctajul echipei: %f\n", currentNODE->score);
         currentNODE = currentNODE->next;
     }
 }

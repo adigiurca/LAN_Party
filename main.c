@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     printf("%d\n", number_of_teams);
     printf("----------------\n");
 
-    int *teams_sum;
+    float *teams_sum;
     teams_sum = (int *) calloc(number_of_teams, sizeof(int));
 
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
@@ -59,12 +59,15 @@ int main(int argc, char **argv) {
             //printf("%d\n", players[j].points);
             sum += players[j].points;
         }
-        teams_sum[i] = sum;
+        teams_sum[i] = (float)sum/number_of_players;
         //printf("\n");
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
     bubble_sort(teams_sum, number_of_teams);
+    for (int i = 0; i < number_of_teams; i++) {
+        printf("%f ", teams_sum[i]);
+    }
     fclose(file);
     //print(head);
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");

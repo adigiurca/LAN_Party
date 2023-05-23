@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
             x /= 2;
             break;
         }
+    printf("%d\n",number_of_teams - x);
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
@@ -95,7 +96,7 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-    //printQueue(matchQueue);
+//    printQueue(matchQueue);
 
     play_2v2_matches(matchQueue, winnersStack, losersStack);
 

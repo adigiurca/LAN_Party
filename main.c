@@ -1,7 +1,7 @@
 #include "functions.h"
 
 int main(int argc, char **argv) {
-    FILE *file = fopen("C:\\Users\\agiur\\OneDrive\\Documents\\GitHub\\LAN_Party\\d.in", "r");
+    FILE *file = fopen(argv[2], "r");
     if (file == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
             //printf("%d\n", players[j].points);
             sum += players[j].points;
         }
-        teams_sum[i] = (float)sum/number_of_players;
+        teams_sum[i] = (float) sum / number_of_players;
         //printf("\n");
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
@@ -77,21 +77,21 @@ int main(int argc, char **argv) {
             x /= 2;
             break;
         }
-    printf("%d\n",number_of_teams - x);
+    printf("%d\n", number_of_teams - x);
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
 
     print(head);
 
-    QUEUE* matchQueue = (QUEUE*)malloc(sizeof(QUEUE));
+    QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
     matchQueue->rear = NULL;
 
-    STACK* winnersStack = (STACK*)malloc(sizeof(STACK));
+    STACK *winnersStack = (STACK *) malloc(sizeof(STACK));
     winnersStack->top = NULL;
 
-    STACK* losersStack = (STACK*)malloc(sizeof(STACK));
+    STACK *losersStack = (STACK *) malloc(sizeof(STACK));
     losersStack->top = NULL;
 
     add_nodes_to_queue(matchQueue, head);

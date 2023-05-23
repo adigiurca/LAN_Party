@@ -211,7 +211,7 @@ void push(STACK *stack, NODE *team) {
         return;
     }
 
-    NODE *newNODE = (NODE *)malloc(sizeof(NODE));
+    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     if (newNODE == NULL) {
         printf("Error allocating memory!");
         return;
@@ -265,7 +265,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
         return;
     }
 
-    while(!isEmpty(queue)){
+    while (!isEmpty(queue)) {
 
         NODE *first_team = deQueue(queue);
         NODE *second_team = deQueue(queue);
@@ -274,14 +274,13 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
             first_team->score = first_team->score + 1;
             push(winner_stack, first_team);
             push(loser_stack, second_team);
-        }
-        else if (first_team->score <= second_team->score) {
+        } else if (first_team->score <= second_team->score) {
             second_team->score = second_team->score + 1;
             push(winner_stack, second_team);
             push(loser_stack, first_team);
         }
     }
-   while(!isEmpty( winner_stack)){
+    while (!isEmpty(winner_stack)) {
         enQueue(queue, winner_stack->top);
         pop(winner_stack);
     }

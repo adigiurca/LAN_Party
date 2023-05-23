@@ -46,10 +46,12 @@ void freeStack(STACK *);
 
 void add_nodes_to_queue(QUEUE *, NODE *);
 
-void play_2v2_matches(QUEUE *, STACK *, STACK *);
+void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int);
 
 void printQueue(QUEUE *);
 
 void printStack(STACK *);
 
 int isTeamInStack(STACK *, TEAM *);
+
+void write_rounds_to_file(NODE *, STACK *, int, FILE *, int);

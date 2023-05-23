@@ -7,6 +7,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    FILE *output_file = fopen(argv[3], "w"); // Open file for writing
+    if (output_file == NULL) {
+        printf("Eroare la deschiderea fisierului!");
+        return 1;
+    }
+
     NODE *head = NULL;
     NODE *team;
     team = (NODE *) malloc(sizeof(NODE));
@@ -39,8 +45,8 @@ int main(int argc, char **argv) {
             strcat(team_name, " ");
             line = strtok(NULL, " ");
         }
+
         team_name[strlen(team_name) - 2] = '\0';
-        //printf("%s", team_name);
 
         PLAYER players[number_of_players];
 
@@ -49,18 +55,14 @@ int main(int argc, char **argv) {
             line = strtok(buffer, " ");
             players[j].firstName = (char *) malloc(strlen(line) + 5);
             strcpy(players[j].firstName, line);
-            //printf("%s ", players[j].firstName);
             line = strtok(NULL, " ");
             players[j].secondName = (char *) malloc(strlen(line) + 5);
             strcpy(players[j].secondName, line);
-            //printf("%s ", players[j].secondName);
             line = strtok(NULL, " ");
             players[j].points = atoi(line);
-            //printf("%d\n", players[j].points);
             sum += players[j].points;
         }
         teams_sum[i] = (float) sum / number_of_players;
-        //printf("\n");
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
@@ -68,7 +70,12 @@ int main(int argc, char **argv) {
     for (int i = 0; i < number_of_teams; i++) {
         printf("%f ", teams_sum[i]);
     }
-    fclose(file);
+    NODE *current = head;
+    while (current != NULL) {
+        fprintf(output_file, "%s\n", current->team_name);
+        current = current->next;
+    }
+
     //print(head);
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
@@ -96,16 +103,9 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-//    printQueue(matchQueue);
+    play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams);
 
-    play_2v2_matches(matchQueue, winnersStack, losersStack);
-
-    printf("\n\n");
-
-//    printStack(winnersStack);
-//    printStack(losersStack);
-
-    //freeStack(losersStack);
-    //free(matchQueue);
+    fclose(file);
+    fclose(output_file);
     return 0;
 }

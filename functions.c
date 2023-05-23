@@ -260,7 +260,34 @@ void freeStack(STACK *stack) {
     stack->top = NULL;
 }
 
-void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
+void write_rounds_to_file(NODE* head, STACK* winners_stack, int num_rounds, FILE* filename, int number_of_teams) {
+    NODE* current = head;
+    int round = 1;
+
+    while (current != NULL && round <= num_rounds) {
+        fprintf(filename, "--- ROUND NO:%d\n", round);
+
+        // Write team pairs
+        while (current != NULL && current->next != NULL) {
+            fprintf(filename, "%-30s - %-30s\n", current->team_name, current->next->team_name);
+            current = current->next->next;
+        }
+
+        fprintf(filename, "\nWINNERS OF ROUND NO:%d\n", round);
+
+        // Write winners with scores
+        STACK* winners_stack_ptr = winners_stack;
+        for (int i = 0; i < 1; i++) {
+            fprintf(filename, "%-30s - %.2f\n", winners_stack_ptr->top->team_name, winners_stack_ptr->top->score);
+            winners_stack_ptr = winners_stack_ptr->top->next;
+        }
+
+        fprintf(filename, "\n");
+        round++;
+    }
+}
+
+void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE* output_file, NODE* head, int number_of_teams) {
     if (isEmpty(queue) || queue->front == queue->rear) {
         return;
     }
@@ -280,6 +307,8 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
             push(loser_stack, first_team);
         }
     }
+    fprintf(output_file, "\n");
+    write_rounds_to_file(head, winner_stack, 5, output_file, number_of_teams);
     while (!isEmpty(winner_stack)) {
         enQueue(queue, winner_stack->top);
         pop(winner_stack);
@@ -287,6 +316,5 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
     freeStack(loser_stack);
     printQueue(queue);
     printf("--------------------\n");
-    play_2v2_matches(queue, winner_stack, loser_stack);
+    play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, number_of_teams);
 }
-

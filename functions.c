@@ -84,21 +84,6 @@ void bubble_sort(float arr[], int size) {
     }
 }
 
-QUEUE_NODE *createNODE(PLAYER *players, char *team_name, int player_number) {
-    QUEUE_NODE *newNODE = (QUEUE_NODE *) malloc(sizeof(QUEUE_NODE));
-    if (newNODE == NULL) {
-        printf("Eroare la alocarea memoriei!");
-        return NULL;
-    }
-    newNODE->players = (PLAYER *) malloc(player_number * sizeof(PLAYER));
-    newNODE->players = players;
-    newNODE->team_name = strdup(team_name);
-    newNODE->player_number = player_number;
-    newNODE->next = NULL;
-
-    return newNODE;
-}
-
 void printStack(STACK *stack) {
 
     NODE *current = stack->top;
@@ -113,18 +98,6 @@ void printStack(STACK *stack) {
 int isEmpty(QUEUE *q) {
     return (q->front == NULL);
 }
-
-int isTeamInStack(STACK *stack, TEAM *team) {
-    NODE *current = stack->top;
-    while (current != NULL) {
-        if (strcmp(current->team_name, team->team_name) == 0) {
-            return 1;  // Team found in the queue
-        }
-        current = current->next;
-    }
-    return 0;  // Team not found in the queue
-}
-
 
 void enQueue(QUEUE *q, NODE *team) {
     NODE *newNODE = (NODE *) malloc(sizeof(NODE));
@@ -203,19 +176,19 @@ void printQueue(QUEUE *queue) {
         return;
     }
 
-    QUEUE_NODE *currentNODE = queue->front;
+    NODE *currentNODE = queue->front;
     while (currentNODE != NULL) {
         printf("Echipa: %s\n", currentNODE->team_name);
-        printf("Numarul de jucatori: %d\n", currentNODE->player_number);
-        printf("Punctajul echipei: %f\n", currentNODE->score);
-        printf("\n");
+//        printf("Numarul de jucatori: %d\n", currentNODE->player_number);
+//        printf("Punctajul echipei: %f\n", currentNODE->score);
+//        printf("\n");
         currentNODE = currentNODE->next;
     }
 }
 
 // Functie pentru crearea unui nod nou pentru stiva
-STACK_NODE *createStackNODE(NODE *team) {
-    STACK_NODE *newNODE = (STACK_NODE *) malloc(sizeof(STACK_NODE));
+NODE *createStackNODE(TEAM *team) {
+    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
     if (newNODE == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
@@ -233,7 +206,7 @@ STACK_NODE *createStackNODE(NODE *team) {
 
 // Functie pentru adaugarea unui nod nou la stiva
 void push(STACK *stack, NODE *team) {
-    STACK_NODE *newNODE = createStackNODE(team);
+    NODE *newNODE = createStackNODE(team);
     if (newNODE == NULL) {
         return;
     }
@@ -248,7 +221,7 @@ char *pop(STACK *stack) {
         return NULL; // Stiva este goala
     }
 
-    STACK_NODE *topNODE = stack->top;
+    NODE *topNODE = stack->top;
     stack->top = stack->top->next;
 
     char *team_name = topNODE->team_name;
@@ -259,9 +232,9 @@ char *pop(STACK *stack) {
 
 // Functie pentru eliberarea memoriei ocupate de stiva
 void freeStack(STACK *stack) {
-    STACK_NODE *currentNODE = stack->top;
+    NODE *currentNODE = stack->top;
     while (currentNODE != NULL) {
-        STACK_NODE *nextNODE = currentNODE->next;
+        NODE *nextNODE = currentNODE->next;
         free(currentNODE->team_name);
         free(currentNODE);
         currentNODE = nextNODE;
@@ -271,23 +244,36 @@ void freeStack(STACK *stack) {
 }
 
 void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack) {
-    while (isEmpty(queue) != 1) {
+    if (isEmpty(queue) || queue->front == queue->rear) {
+        return;
+    }
+
+    while(!isEmpty(queue)){
+
         NODE *first_team = deQueue(queue);
         NODE *second_team = deQueue(queue);
-        if (first_team->score == second_team->score) {
-            first_team->score++;
-            push(winner_stack, first_team);
-            push(loser_stack, second_team);
-        };
+
+//        printf("Echipa %s vs Echipa %s\n", first_team->team_name, second_team->team_name);
+
         if (first_team->score > second_team->score) {
-            first_team->score++;
+            first_team->score = first_team->score + 1;
             push(winner_stack, first_team);
             push(loser_stack, second_team);
-            if (first_team->score < second_team->score) {
-                second_team->score++;
-                push(winner_stack, second_team);
-                push(loser_stack, first_team);
-            }
+        }
+        else if (first_team->score <= second_team->score) {
+            second_team->score = second_team->score + 1;
+            push(winner_stack, second_team);
+            push(loser_stack, first_team);
         }
     }
+    while(!isEmpty(winner_stack)){
+        enQueue(queue, winner_stack->top);
+        pop(winner_stack);
+    }
+//    enQueue(queue, winner_stack->top);
+    freeStack(loser_stack);
+//    printQueue(queue);
+    printf("--------------------\n");
+    //play_2v2_matches(queue, winner_stack, loser_stack);
 }
+

@@ -23,29 +23,29 @@ typedef struct List_Node {
     struct List_Node *next;
 } NODE;
 
-typedef struct Queue_Node {
-    PLAYER *players;
-    char *team_name;
-    float score;
-    int player_number;
-    struct Queue_Node *next;
-} QUEUE_NODE;
+//typedef struct Queue_Node {
+//    PLAYER *players;
+//    char *team_name;
+//    float score;
+//    int player_number;
+//    struct Queue_Node *next;
+//} QUEUE_NODE;
 
 typedef struct Queue {
-    QUEUE_NODE *front;
-    QUEUE_NODE *rear;
+    NODE *front;
+    NODE *rear;
 } QUEUE;
 
-typedef struct Stack_Node {
-    PLAYER *player_info;
-    char *team_name;
-    float score;
-    int player_number;
-    struct Stack_Node *next;
-} STACK_NODE;
+//typedef struct Stack_Node {
+//    PLAYER *player_info;
+//    char *team_name;
+//    float score;
+//    int player_number;
+//    struct Stack_Node *next;
+//} STACK_NODE;
 
 typedef struct Stack {
-    STACK_NODE *top;
+    NODE *top;
 } STACK;
 
 void print(NODE *);

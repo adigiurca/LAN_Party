@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
             strcat(team_name, " ");
             line = strtok(NULL, " ");
         }
-        team_name[strlen(team_name) - 1] = '\0';
+        team_name[strlen(team_name) - 2] = '\0';
         //printf("%s", team_name);
 
         PLAYER players[number_of_players];
@@ -95,9 +95,11 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-    //play_2v2_matches(matchQueue, winnersStack, losersStack);
+    play_2v2_matches(matchQueue, winnersStack, losersStack);
 
     printQueue(matchQueue);
+
+
 
     //freeStack(losersStack);
     //free(matchQueue);

@@ -38,7 +38,6 @@ int main(int argc, char **argv) {
         fgets(buffer, 100, file);
         line = strtok(buffer, " ");
         int number_of_players = atoi(line);
-        //printf("%d ", number_of_players);
         line = strtok(NULL, " ");
         while (line != NULL) {
             strcat(team_name, line);
@@ -66,17 +65,17 @@ int main(int argc, char **argv) {
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
+    NODE *current;
+    //1 0 0 0 0
+//    current = head;
+//    while (current != NULL) {
+//        fprintf(output_file, "%s\n", current->team_name);
+//        current = current->next;
+//    }
+//    fprintf(output_file, "\n");
+//    free(current);
     bubble_sort(teams_sum, number_of_teams);
-    for (int i = 0; i < number_of_teams; i++) {
-        printf("%f ", teams_sum[i]);
-    }
-    NODE *current = head;
-    while (current != NULL) {
-        fprintf(output_file, "%s\n", current->team_name);
-        current = current->next;
-    }
 
-    //print(head);
     printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
@@ -88,8 +87,16 @@ int main(int argc, char **argv) {
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
+    //1 1 0 0 0
+    current = head;
+    while (current != NULL) {
+        fprintf(output_file, "%s\n", current->team_name);
+        current = current->next;
+    }
+    free(current);
+    fprintf(output_file, "\n");
 
-    print(head);
+    //print(head);
 
     QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
@@ -103,7 +110,7 @@ int main(int argc, char **argv) {
 
     add_nodes_to_queue(matchQueue, head);
 
-    play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams);
+    play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams, 1);
 
     fclose(file);
     fclose(output_file);

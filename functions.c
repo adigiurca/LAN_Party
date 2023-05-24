@@ -232,7 +232,7 @@ void push(STACK *stack, NODE *team) {
 
 
 // Functie pentru extragerea unui nod din stiva
-char *pop(STACK *stack) {
+NODE *pop(STACK *stack) {
     if (stack->top == NULL) {
         return NULL; // Stiva este goala
     }
@@ -240,11 +240,22 @@ char *pop(STACK *stack) {
     NODE *topNODE = stack->top;
     stack->top = stack->top->next;
 
-    char *team_name = strdup(topNODE->team_name);
+    NODE *node;
+    node = (NODE *) malloc(sizeof(NODE));
+    if (node == NULL) {
+        printf("Error allocating memory!");
+        return NULL;
+    }
+    node->team_name = (char *) malloc(70);
+    node->team_name = strdup(topNODE->team_name);
+    node->player_number = topNODE->player_number;
+    node->score = topNODE->score;
+    node->player_info = malloc(topNODE->player_number * sizeof(PLAYER));
+
     free(topNODE->team_name);
     free(topNODE);
 
-    return team_name;
+    return node;
 }
 
 // Functie pentru eliberarea memoriei ocupate de stiva
@@ -260,42 +271,40 @@ void freeStack(STACK *stack) {
     stack->top = NULL;
 }
 
-void write_rounds_to_file(NODE* head, STACK* winners_stack, int num_rounds, FILE* filename, int number_of_teams) {
-    NODE* current = head;
-    int round = 1;
-
-    while (current != NULL && round <= num_rounds) {
-        fprintf(filename, "--- ROUND NO:%d\n", round);
-
-        // Write team pairs
-        while (current != NULL && current->next != NULL) {
-            fprintf(filename, "%-30s - %-30s\n", current->team_name, current->next->team_name);
-            current = current->next->next;
-        }
-
-        fprintf(filename, "\nWINNERS OF ROUND NO:%d\n", round);
-
-        // Write winners with scores
-        STACK* winners_stack_ptr = winners_stack;
-        for (int i = 0; i < 1; i++) {
-            fprintf(filename, "%-30s - %.2f\n", winners_stack_ptr->top->team_name, winners_stack_ptr->top->score);
-            winners_stack_ptr = winners_stack_ptr->top->next;
-        }
-
-        fprintf(filename, "\n");
-        round++;
+int calculate_num_rounds(int num_teams) {
+    int num_rounds = 0;
+    while (num_teams > 1) {
+        num_teams = (num_teams + 1) / 2;
+        num_rounds++;
     }
+    return num_rounds;
 }
 
-void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE* output_file, NODE* head, int number_of_teams) {
+void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE *output_file, NODE *head,
+                      int number_of_teams, int round) {
     if (isEmpty(queue) || queue->front == queue->rear) {
         return;
     }
 
+    fprintf(output_file, "--- ROUND NO:%d\n", round);
     while (!isEmpty(queue)) {
-
         NODE *first_team = deQueue(queue);
         NODE *second_team = deQueue(queue);
+
+        char *spacing1 = strdup(first_team->team_name);
+        char *spacing2 = strdup(second_team->team_name);
+        spacing1[strlen(spacing1)] = '\0';
+        spacing2[strlen(spacing2)] = '\0';
+        fprintf(output_file, "%s", spacing1);
+
+        for (int i = 0; i < 33 - strlen(spacing1); i++)
+            fprintf(output_file, " ");
+        fprintf(output_file, "-");
+
+        for (int i = 0; i < 33 - strlen(spacing2); i++)
+            fprintf(output_file, " ");
+
+        fprintf(output_file, "%s\n", spacing2);
 
         if (first_team->score > second_team->score) {
             first_team->score = first_team->score + 1;
@@ -308,13 +317,15 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
         }
     }
     fprintf(output_file, "\n");
-    write_rounds_to_file(head, winner_stack, 5, output_file, number_of_teams);
+    fprintf(output_file, "WINNERS OF ROUND NO:%d\n", round);
     while (!isEmpty(winner_stack)) {
         enQueue(queue, winner_stack->top);
-        pop(winner_stack);
+        NODE *temp = pop(winner_stack);
+        fprintf(output_file, "%-33s -  %.2f\n", temp->team_name, temp->score);
     }
+    fprintf(output_file, "\n");
     freeStack(loser_stack);
     printQueue(queue);
     printf("--------------------\n");
-    play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, number_of_teams);
+    play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, number_of_teams, ++round);
 }

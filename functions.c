@@ -307,7 +307,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
     }
     fprintf(output_file, "\n");
     freeStack(loser_stack);
-    printQueue(queue);
+    //printQueue(queue);
     printf("--------------------\n");
     play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, number_of_teams, ++round);
 }

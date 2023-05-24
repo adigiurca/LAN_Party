@@ -61,6 +61,18 @@ build CMakeFiles/LAN_Party.dir/functions.c.obj: C_COMPILER__LAN_Party_Debug C$:/
   OBJECT_DIR = CMakeFiles\LAN_Party.dir
   OBJECT_FILE_DIR = CMakeFiles\LAN_Party.dir
 
+build CMakeFiles/LAN_Party.dir/C_/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/main.c.obj: C_COMPILER__LAN_Party_Debug C$:/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/main.c || cmake_object_order_depends_target_LAN_Party
+  DEP_FILE = CMakeFiles\LAN_Party.dir\C_\Users\agiur\Downloads\lan-party-02-checker-main\lan-party-02-checker-main\main.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu11
+  OBJECT_DIR = CMakeFiles\LAN_Party.dir
+  OBJECT_FILE_DIR = CMakeFiles\LAN_Party.dir\C_\Users\agiur\Downloads\lan-party-02-checker-main\lan-party-02-checker-main
+
+build CMakeFiles/LAN_Party.dir/C_/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/functions.c.obj: C_COMPILER__LAN_Party_Debug C$:/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/functions.c || cmake_object_order_depends_target_LAN_Party
+  DEP_FILE = CMakeFiles\LAN_Party.dir\C_\Users\agiur\Downloads\lan-party-02-checker-main\lan-party-02-checker-main\functions.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu11
+  OBJECT_DIR = CMakeFiles\LAN_Party.dir
+  OBJECT_FILE_DIR = CMakeFiles\LAN_Party.dir\C_\Users\agiur\Downloads\lan-party-02-checker-main\lan-party-02-checker-main
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target LAN_Party
@@ -69,7 +81,7 @@ build CMakeFiles/LAN_Party.dir/functions.c.obj: C_COMPILER__LAN_Party_Debug C$:/
 #############################################
 # Link the executable LAN_Party.exe
 
-build LAN_Party.exe: C_EXECUTABLE_LINKER__LAN_Party_Debug CMakeFiles/LAN_Party.dir/main.c.obj CMakeFiles/LAN_Party.dir/functions.c.obj
+build LAN_Party.exe: C_EXECUTABLE_LINKER__LAN_Party_Debug CMakeFiles/LAN_Party.dir/main.c.obj CMakeFiles/LAN_Party.dir/functions.c.obj CMakeFiles/LAN_Party.dir/C_/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/main.c.obj CMakeFiles/LAN_Party.dir/C_/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/functions.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\LAN_Party.dir

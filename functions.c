@@ -187,24 +187,6 @@ void printQueue(QUEUE *queue) {
     }
 }
 
-// Functie pentru crearea unui nod nou pentru stiva
-NODE *createStackNODE(TEAM *team) {
-    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
-    if (newNODE == NULL) {
-        printf("Eroare la alocarea memoriei!");
-        return NULL;
-    }
-    newNODE->team_name = (char *) malloc(70);
-    newNODE->player_info = (PLAYER *) malloc(sizeof(PLAYER));
-    strcpy(newNODE->team_name, team->team_name);
-    newNODE->score = team->score;
-    newNODE->player_number = team->player_number;
-    newNODE->player_info = team->player_info;
-    newNODE->next = NULL;
-
-    return newNODE;
-}
-
 // Functie pentru adaugarea unui nod nou la stiva
 void push(STACK *stack, NODE *team) {
     if (team == NULL) {

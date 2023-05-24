@@ -13,6 +13,21 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    FILE *tasks = fopen(argv[1], "r");
+    if (tasks == NULL) {
+        printf("Eroare la deschiderea fisierului!");
+        return 1;
+    }
+
+    char task_buffer[10];
+    char *task1, *task2, *task3, *task4, *task5;
+
+    task1 = strtok(task_buffer, " ");
+    task2 = strtok(NULL, " ");
+    task3 = strtok(NULL, " ");
+    task4 = strtok(NULL, " ");
+    task5 = strtok(NULL, " ");
+
     NODE *head = NULL;
     NODE *team;
     team = (NODE *) malloc(sizeof(NODE));
@@ -22,10 +37,7 @@ int main(int argc, char **argv) {
     buffer = (char *) malloc(100);
     char *line;
 
-    printf("Numar echipe:\n");
     int number_of_teams = atoi(fgets(buffer, sizeof(buffer), file));
-    printf("%d\n", number_of_teams);
-    printf("----------------\n");
 
     float *teams_sum;
     teams_sum = (int *) calloc(number_of_teams, sizeof(int));
@@ -66,37 +78,36 @@ int main(int argc, char **argv) {
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
     NODE *current;
-    //1 0 0 0 0
-//    current = head;
-//    while (current != NULL) {
-//        fprintf(output_file, "%s\n", current->team_name);
-//        current = current->next;
-//    }
-//    fprintf(output_file, "\n");
-//    free(current);
+    if (task1 == "1") {
+        current = head;
+        while (current != NULL) {
+            fprintf(output_file, "%s\n", current->team_name);
+            current = current->next;
+        }
+        free(current);
+    }
+
     bubble_sort(teams_sum, number_of_teams);
 
-    printf("\n\nLista dupa eliminarea echipelor cu cel mai mic punctaj:\n\n");
     int x;
     for (x = 2; 1; x = x * 2)
         if (x > number_of_teams) {
             x /= 2;
             break;
         }
-    printf("%d\n", number_of_teams - x);
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
-    //1 1 0 0 0
-    current = head;
-    while (current != NULL) {
-        fprintf(output_file, "%s\n", current->team_name);
-        current = current->next;
+    if (task2 == "1" || task3 == "1") {
+        current = head;
+        while (current != NULL) {
+            fprintf(output_file, "%s\n", current->team_name);
+            fprintf(output_file, "\n");
+            fprintf(output_file, "\n");
+            current = current->next;
+        }
+        free(current);
     }
-    free(current);
-    fprintf(output_file, "\n");
-
-    //print(head);
 
     QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
@@ -109,10 +120,11 @@ int main(int argc, char **argv) {
     losersStack->top = NULL;
 
     add_nodes_to_queue(matchQueue, head);
-
-    play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams, 1);
+    if (task3 == '1')
+        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams, 1);
 
     fclose(file);
     fclose(output_file);
+    fclose(tasks);
     return 0;
 }

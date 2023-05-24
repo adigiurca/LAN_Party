@@ -14,13 +14,17 @@ int main(int argc, char **argv) {
     }
 
     FILE *tasks = fopen(argv[1], "r");
+
+
     if (tasks == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
     }
 
     char task_buffer[10];
+    fgets(task_buffer, sizeof(task_buffer), tasks);
     char *task1, *task2, *task3, *task4, *task5;
+    printf("AICI->%s\n", task_buffer);
 
     task1 = strtok(task_buffer, " ");
     task2 = strtok(NULL, " ");
@@ -77,8 +81,9 @@ int main(int argc, char **argv) {
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
+    printf("AICI->%s\n",task1);
     NODE *current;
-    if (task1 == "1") {
+    if (strcmp(task1,"1") == 0) {
         current = head;
         while (current != NULL) {
             fprintf(output_file, "%s\n", current->team_name);
@@ -98,7 +103,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
-    if (task2 == "1" || task3 == "1") {
+    if((strcmp(task2,"1")) == 0 || strcmp(task3 ,"1") == 0) {
         current = head;
         while (current != NULL) {
             fprintf(output_file, "%s\n", current->team_name);

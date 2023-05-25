@@ -1,7 +1,5 @@
 #include "functions.h"
 
-int aux = 0;
-
 void print(NODE *head) {
     while (head != NULL) {
         printf("%d ", head->player_number);
@@ -313,16 +311,17 @@ BSTNode *insertBSTNode(BSTNode *root, NODE *team) {
 //    printBSTInOrderToFile(root->left, output_file); // Traverse left subtree
 //}
 
-void preorderTraversal(BSTNode *root, FILE *output_file) {
+void preorderTraversal(BSTNode *root, FILE* output_file) {
     if (root == NULL) {
         return;
     }
 
-    fprintf(output_file, "%30s - %.2f\n", root->team_name, root->score);
-
+//    fprintf(output_file, "AICI");
+    printf("%d\n", root->score);
     preorderTraversal(root->left, output_file);
     preorderTraversal(root->right, output_file);
 }
+
 
 
 int getSize(STACK *stack) {
@@ -339,8 +338,6 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
                       BSTNode *top8) {
     if (isEmpty(queue) || queue->front == queue->rear)
         return;
-
-    top8 = NULL;
 
     fprintf(output_file, "\n");
     fprintf(output_file, "--- ROUND NO:%d\n", round);

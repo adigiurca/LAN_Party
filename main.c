@@ -114,6 +114,7 @@ int main(int argc, char **argv) {
     losersStack->top = NULL;
 
     BSTNode *top8 = (BSTNode *) malloc(sizeof(BSTNode));
+    top8 = NULL;
 
     add_nodes_to_queue(matchQueue, head);
 
@@ -138,6 +139,7 @@ int main(int argc, char **argv) {
     if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
         fprintf(output_file, "\n");
         fprintf(output_file, "TOP 8 TEAMS:\n");
+//        printBSTInOrderToFile(top8, output_file);
         preorderTraversal(top8, output_file);
     }
 

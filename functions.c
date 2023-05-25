@@ -1,5 +1,7 @@
 #include "functions.h"
 
+int aux = 0;
+
 void print(NODE *head) {
     while (head != NULL) {
         printf("%d ", head->player_number);
@@ -13,6 +15,22 @@ void print(NODE *head) {
     }
 }
 
+void trim_leading_whitespace(char *str) {
+    int i = 0;
+    while (str[i] != '\0' && isspace((unsigned char) str[i])) {
+        i++;
+    }
+    memmove(str, str + i, strlen(str) - i + 1);
+}
+
+// Trim trailing whitespace from a string
+void trim_trailing_whitespace(char *str) {
+    int i = strlen(str) - 1;
+    while (i >= 0 && isspace((unsigned char) str[i])) {
+        str[i] = '\0';
+        i--;
+    }
+}
 
 void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYER *player, float score) {
     // Alocare memorie pentru noul nod
@@ -22,7 +40,7 @@ void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYE
         return;
     }
 
-    newNODE->team_name = (char *) malloc(30);
+    newNODE->team_name = (char *) malloc(50);
     strcpy(newNODE->team_name, team_name);
     newNODE->player_number = number_of_players;
     newNODE->score = score;
@@ -253,40 +271,83 @@ void freeStack(STACK *stack) {
     stack->top = NULL;
 }
 
-int calculate_num_rounds(int num_teams) {
-    int num_rounds = 0;
-    while (num_teams > 1) {
-        num_teams = (num_teams + 1) / 2;
-        num_rounds++;
+BSTNode *insertBSTNode(BSTNode *root, NODE *team) {
+    // Create a new node
+    BSTNode *newNode = (BSTNode *) malloc(sizeof(BSTNode));
+    newNode->team_name = (char *) malloc(70);
+    strcpy(newNode->team_name, team->team_name);
+    newNode->score = team->score;
+    newNode->left = NULL;
+    newNode->right = NULL;
+
+    // If the tree is empty, the new node becomes the root
+    if (root == NULL) {
+        return newNode;
     }
-    return num_rounds;
+
+    // Search for the appropriate place to insert the new node
+    if (team->score > root->score || (team->score == root->score && strcmp(team->team_name, root->team_name) > 0)) {
+        root->right = insertBSTNode(root->right, team);
+    } else {
+        root->left = insertBSTNode(root->left, team);
+    }
+
+    return root;
 }
 
-void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE *output_file, NODE *head,
-                      int number_of_teams, int round) {
-    if (isEmpty(queue) || queue->front == queue->rear) {
+
+//void printBSTInOrderToFile(BSTNode *root, FILE *output_file) {
+//    if (root == NULL) {
+//        return;
+//    }
+//
+//    printBSTInOrderToFile(root->right, output_file); // Traverse right subtree first
+//
+//    root->team_name[strlen(root->team_name) - 1] = '\0';
+//    fprintf(output_file, "%s", root->team_name);
+//    for (int i = 0; i < 34 - strlen(root->team_name); i++)
+//        fprintf(output_file, " ");
+//    fprintf(output_file, "-  ");
+//    fprintf(output_file, "%.2f\n", root->score);
+//
+//    printBSTInOrderToFile(root->left, output_file); // Traverse left subtree
+//}
+
+void preorderTraversal(BSTNode *root, FILE *output_file) {
+    if (root == NULL) {
         return;
     }
 
+    fprintf(output_file, "%30s - %.2f\n", root->team_name, root->score);
+
+    preorderTraversal(root->left, output_file);
+    preorderTraversal(root->right, output_file);
+}
+
+
+int getSize(STACK *stack) {
+    int size = 0;
+    NODE *current = stack->top;
+    while (current != NULL) {
+        size++;
+        current = current->next;
+    }
+    return size;
+}
+
+void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE *output_file, NODE *head, int round,
+                      BSTNode *top8) {
+    if (isEmpty(queue) || queue->front == queue->rear)
+        return;
+
+    top8 = NULL;
+
+    fprintf(output_file, "\n");
     fprintf(output_file, "--- ROUND NO:%d\n", round);
+
     while (!isEmpty(queue)) {
         NODE *first_team = deQueue(queue);
         NODE *second_team = deQueue(queue);
-
-        char *spacing1 = strdup(first_team->team_name);
-        char *spacing2 = strdup(second_team->team_name);
-        spacing1[strlen(spacing1)] = '\0';
-        spacing2[strlen(spacing2)] = '\0';
-        fprintf(output_file, "%s", spacing1);
-
-        for (int i = 0; i < 33 - strlen(spacing1); i++)
-            fprintf(output_file, " ");
-        fprintf(output_file, "-");
-
-        for (int i = 0; i < 33 - strlen(spacing2); i++)
-            fprintf(output_file, " ");
-
-        fprintf(output_file, "%s\n", spacing2);
 
         if (first_team->score > second_team->score) {
             first_team->score = first_team->score + 1;
@@ -297,17 +358,67 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
             push(winner_stack, second_team);
             push(loser_stack, first_team);
         }
+
+        char *spacing1;
+        char *spacing2;
+        spacing1 = (char *) malloc(70);
+        spacing2 = (char *) malloc(70);
+        strcpy(spacing1, first_team->team_name);
+        strcpy(spacing2, second_team->team_name);
+
+        spacing1[strlen(spacing1) - 1] = '\0';
+        spacing2[strlen(spacing2) - 1] = '\0';
+
+        if (spacing1[strlen(spacing1) - 1] == '\n') {
+            spacing1[strlen(spacing1) - 1] = '\0';
+        }
+        trim_leading_whitespace(spacing1);
+        trim_trailing_whitespace(spacing1);
+
+        if (spacing2[strlen(spacing2) - 1] == '\n') {
+            spacing2[strlen(spacing2) - 1] = '\0';
+        }
+        trim_leading_whitespace(spacing2);
+        trim_trailing_whitespace(spacing2);
+
+        fprintf(output_file, "%s", spacing1);
+
+        for (int i = 0; i < 33 - strlen(spacing1); i++)
+            fprintf(output_file, " ");
+
+        fprintf(output_file, "-");
+
+        for (int i = 0; i < 33 - strlen(spacing2); i++)
+            fprintf(output_file, " ");
+        fprintf(output_file, "%s\n", spacing2);
     }
+
+    if (getSize(winner_stack) == 8) {
+        NODE *temporary = winner_stack->top;
+        while (temporary != NULL) {
+            top8 = insertBSTNode(top8, temporary);
+            temporary = temporary->next;
+        }
+    }
+
     fprintf(output_file, "\n");
+
     fprintf(output_file, "WINNERS OF ROUND NO:%d\n", round);
+
     while (!isEmpty(winner_stack)) {
         enQueue(queue, winner_stack->top);
         NODE *temp = pop(winner_stack);
-        fprintf(output_file, "%-33s -  %.2f\n", temp->team_name, temp->score);
+        temp->team_name[strlen(temp->team_name) - 1] = '\0';
+        fprintf(output_file, "%s", temp->team_name);
+
+        for (int i = 0; i < 34 - strlen(temp->team_name); i++)
+            fprintf(output_file, " ");
+
+        fprintf(output_file, "-  ");
+
+        fprintf(output_file, "%.2f\n", temp->score);
     }
-    fprintf(output_file, "\n");
+
     freeStack(loser_stack);
-    //printQueue(queue);
-    printf("--------------------\n");
-    play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, number_of_teams, ++round);
+    play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, ++round, top8);
 }

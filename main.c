@@ -24,7 +24,6 @@ int main(int argc, char **argv) {
     char task_buffer[10];
     fgets(task_buffer, sizeof(task_buffer), tasks);
     char *task1, *task2, *task3, *task4, *task5;
-    printf("AICI->%s\n", task_buffer);
 
     task1 = strtok(task_buffer, " ");
     task2 = strtok(NULL, " ");
@@ -49,8 +48,8 @@ int main(int argc, char **argv) {
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
     for (int i = 0; i < number_of_teams; i++) {
         int sum = 0;
-        char team_name[50];
-        memset(team_name, 0, 50);
+        char team_name[70];
+        memset(team_name, 0, 70);
         fgets(buffer, 100, file);
         line = strtok(buffer, " ");
         int number_of_players = atoi(line);
@@ -81,9 +80,9 @@ int main(int argc, char **argv) {
         fgets(buffer, 5, file);
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
     }
-    printf("AICI->%s\n",task1);
+
     NODE *current;
-    if (strcmp(task1,"1") == 0) {
+    if (strcmp(task1, "1") == 0 && strcmp(task2, "0") == 0) {
         current = head;
         while (current != NULL) {
             fprintf(output_file, "%s\n", current->team_name);
@@ -103,16 +102,6 @@ int main(int argc, char **argv) {
     for (int i = 0; i < number_of_teams - x; i++) {
         delete_node_by_value(&head, teams_sum[i]);
     }
-    if((strcmp(task2,"1")) == 0 || strcmp(task3 ,"1") == 0) {
-        current = head;
-        while (current != NULL) {
-            fprintf(output_file, "%s\n", current->team_name);
-            fprintf(output_file, "\n");
-            fprintf(output_file, "\n");
-            current = current->next;
-        }
-        free(current);
-    }
 
     QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
@@ -124,9 +113,33 @@ int main(int argc, char **argv) {
     STACK *losersStack = (STACK *) malloc(sizeof(STACK));
     losersStack->top = NULL;
 
+    BSTNode *top8 = (BSTNode *) malloc(sizeof(BSTNode));
+
     add_nodes_to_queue(matchQueue, head);
-    if (task3 == '1')
-        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, number_of_teams, 1);
+
+    if ((strcmp(task2, "1")) == 0 || strcmp(task3, "1") == 0) {
+        current = head;
+        while (current != NULL) {
+            if (current->team_name[strlen(current->team_name) - 1] == '\n') {
+                current->team_name[strlen(current->team_name) - 1] = '\0';
+            }
+            trim_leading_whitespace(current->team_name);
+            trim_trailing_whitespace(current->team_name);
+            fprintf(output_file, "%s\n", current->team_name);
+            current = current->next;
+        }
+        free(current);
+    }
+
+    if (strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0)
+        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, top8);
+
+
+    if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
+        fprintf(output_file, "\n");
+        fprintf(output_file, "TOP 8 TEAMS:\n");
+        preorderTraversal(top8, output_file);
+    }
 
     fclose(file);
     fclose(output_file);

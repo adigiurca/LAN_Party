@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
+typedef struct BST_Node {
+    char *team_name;
+    float score;
+    struct BST_Node *left;
+    struct BST_Node *right;
+} BSTNode;
 
 typedef struct Player {
     char *firstName;
@@ -46,8 +54,18 @@ void freeStack(STACK *);
 
 void add_nodes_to_queue(QUEUE *, NODE *);
 
-void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int);
+void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int, BSTNode *);
 
 void printQueue(QUEUE *);
 
 void printStack(STACK *);
+
+void trim_leading_whitespace(char *);
+
+void trim_trailing_whitespace(char *);
+
+BSTNode *insertBSTNode(BSTNode *, NODE *);
+
+void printBSTInOrderToFile(BSTNode *, FILE *);
+
+void preorderTraversal(BSTNode *, FILE *);

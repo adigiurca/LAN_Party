@@ -105,7 +105,8 @@
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				1
+				1,
+				5
 			]
 		}
 	],
@@ -139,6 +140,11 @@
 			"compileGroupIndex" : 0,
 			"path" : "C:/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/functions.c",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "C:/Users/agiur/Downloads/lan-party-02-checker-main/lan-party-02-checker-main/functions.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"

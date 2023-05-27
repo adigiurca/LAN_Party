@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     int number_of_teams = atoi(fgets(buffer, sizeof(buffer), file));
 
     float *teams_sum;
-    teams_sum = (int *) calloc(number_of_teams, sizeof(int));
+    teams_sum = (float *) calloc(number_of_teams, sizeof(float));
 
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
     for (int i = 0; i < number_of_teams; i++) {
@@ -113,11 +113,12 @@ int main(int argc, char **argv) {
     STACK *losersStack = (STACK *) malloc(sizeof(STACK));
     losersStack->top = NULL;
 
-    NODE *top8 = (NODE *) malloc(sizeof(NODE));
-    top8 = NULL;
+    NODE *top8_list = (NODE *) malloc(sizeof(NODE));
+    top8_list = NULL;
 
-    BSTNode *top8_BST = (BSTNode *) malloc(sizeof(BSTNode));
-    top8_BST = NULL;
+    BSTNode *top8_BST = NULL;
+
+    AVLNode *top8_AVL = NULL;
 
     add_nodes_to_queue(matchQueue, head);
 
@@ -133,16 +134,28 @@ int main(int argc, char **argv) {
     }
 
     if (strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0)
-        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8);
+        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8_list);
 
     if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
         fprintf(output_file, "\n");
         fprintf(output_file, "TOP 8 TEAMS:\n");
-        while (top8 != NULL) {
-            insertBSTNode(top8_BST, top8);
-            top8 = top8->next;
+        while (top8_list != NULL) {
+            top8_BST = insertBSTNode(top8_BST, top8_list);
+            top8_list = top8_list->next;
         }
-        printBSTInOrderToFile(top8_BST, output_file);
+        printBSTToFile(top8_BST, output_file);
+    }
+
+    if (strcmp(task5, "1") == 0 && strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 &&
+        strcmp(task1, "1") == 0) {
+        fprintf(output_file, "\n");
+        fprintf(output_file, "THE LEVEL 2 TEAMS ARE:\n");
+        while (top8_list != NULL) {
+            top8_AVL = insertAVLNode(top8_AVL, top8_list);
+            top8_list = top8_list->next;
+        }
+//        fprintf(output_file, "%s", top8_AVL->team_name);
+//        printAVLAtLevel2(top8_AVL, 1, output_file);
     }
 
     fclose(file);

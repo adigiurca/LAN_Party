@@ -10,6 +10,14 @@ typedef struct BST_Node {
     struct BST_Node *right;
 } BSTNode;
 
+typedef struct AVLNode {
+    char *team_name;
+    float score;
+    int height;
+    struct AVLNode *left;
+    struct AVLNode *right;
+} AVLNode;
+
 typedef struct Player {
     char *firstName;
     char *secondName;
@@ -60,16 +68,15 @@ void add_nodes_to_queue(QUEUE *, NODE *);
 
 void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int, NODE **);
 
-void printQueue(QUEUE *);
-
-void printStack(STACK *);
-
 void trim_leading_whitespace(char *);
 
 void trim_trailing_whitespace(char *);
 
 BSTNode *insertBSTNode(BSTNode *, NODE *);
 
-void printBSTInOrderToFile(BSTNode *, FILE *);
+void printBSTToFile(BSTNode *, FILE *);
 
-void preorderTraversal(BSTNode *, FILE *);
+AVLNode *insertAVLNode(AVLNode *, NODE *);
+
+void printAVLAtLevel2(AVLNode *, int , FILE *);
+

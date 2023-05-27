@@ -303,10 +303,10 @@ BSTNode *newNode(NODE *team) {
 }
 
 BSTNode *insert(BSTNode *node, NODE* key) {
-// daca ( sub) arborele este gol , creaza nod
+
     if (node == NULL) return newNode(key);
-// altfel , coboara la stanga sau dreapta
-    if (key->score > node->score || (key->score == node->score && strcmp(key->team_name, node->team_name) > 0))
+
+    if (key->score < node->score || (key->score == node->score && strcmp(key->team_name, node->team_name) < 0))
         node->left = insert(node->left, key);
     else
         node->right = insert(node->right, key);
@@ -318,7 +318,7 @@ void printBSTInOrderToFile(BSTNode *root, FILE *output_file) {
         return;
     }
 
-    printBSTInOrderToFile(root->right, output_file); // Traverse right subtree first
+    printBSTInOrderToFile(root->right, output_file);
 
     root->team_name[strlen(root->team_name) - 1] = '\0';
     fprintf(output_file, "%s", root->team_name);
@@ -327,21 +327,8 @@ void printBSTInOrderToFile(BSTNode *root, FILE *output_file) {
     fprintf(output_file, "-  ");
     fprintf(output_file, "%.2f\n", root->score);
 
-    printBSTInOrderToFile(root->left, output_file); // Traverse left subtree
+    printBSTInOrderToFile(root->left, output_file);
 }
-
-void preorderTraversal(BSTNode *root, FILE* output_file) {
-    if (root == NULL) {
-        return;
-    }
-
-//    fprintf(output_file, "AICI");
-    printf("%d\n", root->score);
-    preorderTraversal(root->left, output_file);
-    preorderTraversal(root->right, output_file);
-}
-
-
 
 int getSize(STACK *stack) {
     int size = 0;

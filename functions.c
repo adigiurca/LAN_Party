@@ -309,14 +309,14 @@ BSTNode *newNode(NODE *team) {
     return node;
 }
 
-BSTNode *insert(BSTNode *node, NODE* key) {
+BSTNode *insertBSTNode(BSTNode *node, NODE* key) {
 
     if (node == NULL) return newNode(key);
 
-    if (key->score < node->score || (key->score == node->score && strcmp(key->team_name, node->team_name) < 0))
-        node->left = insert(node->left, key);
+    if (key->score > node->score || (key->score == node->score && strcmp(key->team_name, node->team_name) > 0))
+        node->left = insertBSTNode(node->left, key);
     else
-        node->right = insert(node->right, key);
+        node->right = insertBSTNode(node->right, key);
     return node;
 }
 

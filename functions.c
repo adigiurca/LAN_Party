@@ -313,10 +313,9 @@ void add_top8_to_beginning(NODE **head, NODE *team) {
     for (int i = 0; i < team->player_number; i++) {
         newNODE->player_info[i].firstName = (char *) malloc(15);
         newNODE->player_info[i].secondName = (char *) malloc(15);
-        newNODE->player_info[i] = team->player_info[i];
-        //strcpy(newNODE->player_info[i].firstName, player->firstName);
-        //strcpy(newNODE->player_info[i].secondName, player->secondName);
-        //newNODE->player_info[i].points = player->points;
+        strcpy(newNODE->player_info[i].firstName, team->player_info[i].firstName);
+        strcpy(newNODE->player_info[i].secondName, team->player_info[i].secondName);
+        newNODE->player_info[i].points = team->player_info[i].points;
     }
 
     newNODE->next = *head;
@@ -477,34 +476,71 @@ AVLNode *insertAVLNode(AVLNode *root, NODE *team) {
 
     int balance = get_balance(root);
 
-    if (balance > 1 && team->score < root->left->score)
+    if (balance > 1 && team->score > root->left->score)
         return RightRotation(root);
 
-    if (balance < -1 && team->score > root->right->score)
+    if (balance < -1 && team->score < root->right->score)
         return LeftRotation(root);
 
-    if (balance > 1 && team->score > root->left->score) {
-        root->right = RightRotation(root->right);
-        return LeftRotation(root);
-    }
-
-    if (balance < -1 && team->score < root->right->score) {
+    if (balance > 1 && team->score < root->left->score) {
         root->left = LeftRotation(root->left);
         return RightRotation(root);
+    }
+
+    if (balance < -1 && team->score > root->right->score) {
+        root->right = RightRotation(root->right);
+        return LeftRotation(root);
     }
 
     return root;
 }
 
+//AVLNode *insertAVLNode(AVLNode *node, NODE *key) {
+//// 1. inserare nod
+//    if (node == NULL) {
+//        node = (AVLNode *) malloc(sizeof(AVLNode));
+//        node->team_name = (char *) malloc(70);
+//        strcpy(node->team_name, key->team_name);
+//        node->score = key->score;
+//        node->height = 0; // adaugare ca frunza
+//        node->left = node->right = NULL;
+//        return node;
+//    }
+//    if (key->score < node->score)
+//        node->left = insertAVLNode(node->left, key);
+//    else if (key->score > node->score)
+//        node->right = insertAVLNode(node->right, key);
+//    else return node; // nu exista chei duplicat
+//    node->height = 1 + max(get_height(node->left), get_height(node->right));
+//    int k = (get_height(node->left) - get_height(node->right));
+//    if (k > 1 && key->score < node->left->score)
+//        return RightRotation(node);
+//    if (k < -1 && key->score > node->right->score)
+//        return LeftRotation(node);
+//
+//    if (k > 1 && key->score > node->left->score)
+//        return RLRotation(node);
+//
+//    if (k < -1 && key->score < node->right->score)
+//        return LRRotation(node);
+//    return node; // returneaza nodul nemodificat
+//}
+
+
 void printAVLAtLevel2(AVLNode *root, int level, FILE *output_file) {
     if (root == NULL)
         return;
 
-    if (level == 2) {
-        fprintf(output_file, "%s\n", root->team_name);
+    if (root->left != NULL && root->right != NULL && level == 2) {
+        fprintf(output_file, "%s\n", root->left->team_name);
+        fprintf(output_file, "%s\n", root->right->team_name);
         return;
     }
 
     printAVLAtLevel2(root->left, level + 1, output_file);
     printAVLAtLevel2(root->right, level + 1, output_file);
 }
+
+
+
+

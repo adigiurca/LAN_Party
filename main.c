@@ -116,9 +116,12 @@ int main(int argc, char **argv) {
     NODE *top8_list = (NODE *) malloc(sizeof(NODE));
     top8_list = NULL;
 
+    NODE *temp = (NODE *) malloc(sizeof(NODE));
+
     BSTNode *top8_BST = NULL;
 
-    AVLNode *top8_AVL = NULL;
+    AVLNode *top8_AVL = (AVLNode *) malloc(sizeof(AVLNode));
+    top8_AVL = NULL;
 
     add_nodes_to_queue(matchQueue, head);
 
@@ -136,13 +139,17 @@ int main(int argc, char **argv) {
     if (strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0)
         play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8_list);
 
+//    print(top8_list);
+
     if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
         fprintf(output_file, "\n");
         fprintf(output_file, "TOP 8 TEAMS:\n");
-        while (top8_list != NULL) {
-            top8_BST = insertBSTNode(top8_BST, top8_list);
-            top8_list = top8_list->next;
+        temp = top8_list;
+        while (temp != NULL) {
+            top8_BST = insertBSTNode(top8_BST, temp);
+            temp = temp->next;
         }
+        free(temp);
         printBSTToFile(top8_BST, output_file);
     }
 
@@ -150,16 +157,18 @@ int main(int argc, char **argv) {
         strcmp(task1, "1") == 0) {
         fprintf(output_file, "\n");
         fprintf(output_file, "THE LEVEL 2 TEAMS ARE:\n");
-        while (top8_list != NULL) {
-            top8_AVL = insertAVLNode(top8_AVL, top8_list);
-            top8_list = top8_list->next;
+        temp = top8_list;
+        while (temp != NULL) {
+            top8_AVL = insertAVLNode(top8_AVL, temp);
+            temp = temp->next;
         }
-//        fprintf(output_file, "%s", top8_AVL->team_name);
-//        printAVLAtLevel2(top8_AVL, 1, output_file);
-    }
+        free(temp);
+//        preorderTraversal(top8_AVL, output_file);
+        printAVLAtLevel2(top8_AVL, 1, output_file);
 
-    fclose(file);
-    fclose(output_file);
-    fclose(tasks);
-    return 0;
+        fclose(file);
+        fclose(output_file);
+        fclose(tasks);
+        return 0;
+    }
 }

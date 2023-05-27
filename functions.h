@@ -78,5 +78,6 @@ void printBSTToFile(BSTNode *, FILE *);
 
 AVLNode *insertAVLNode(AVLNode *, NODE *);
 
-void printAVLAtLevel2(AVLNode *, int , FILE *);
+void printAVLAtLevel2(AVLNode *,int, FILE *);
 
+void preorderTraversal(AVLNode *, FILE *);

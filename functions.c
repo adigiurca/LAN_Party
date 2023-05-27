@@ -13,6 +13,13 @@ void print(NODE *head) {
     }
 }
 
+void print_top8(NODE *head){
+    while(head != NULL){
+        printf("%s\n", head->team_name);
+        head = head->next;
+    }
+}
+
 void trim_leading_whitespace(char *str) {
     int i = 0;
     while (str[i] != '\0' && isspace((unsigned char) str[i])) {
@@ -340,8 +347,37 @@ int getSize(STACK *stack) {
     return size;
 }
 
+void add_top8_to_beginning(NODE **head, NODE *team) {
+    // Alocare memorie pentru noul nod
+    NODE *newNODE = (NODE *) malloc(sizeof(NODE));
+    if (newNODE == NULL) {
+        printf("Eroare la alocarea memoriei!");
+        return;
+    }
+
+    newNODE->team_name = (char *) malloc(50);
+    strcpy(newNODE->team_name, team->team_name);
+    newNODE->player_number = team->player_number;
+    newNODE->score = team->score;
+
+    newNODE->player_info = (PLAYER *) malloc(team->player_number * sizeof(PLAYER));
+
+    for (int i = 0; i < team->player_number; i++) {
+        newNODE->player_info[i].firstName = (char *) malloc(15);
+        newNODE->player_info[i].secondName = (char *) malloc(15);
+        newNODE->player_info[i] = team->player_info[i];
+        //strcpy(newNODE->player_info[i].firstName, player->firstName);
+        //strcpy(newNODE->player_info[i].secondName, player->secondName);
+        //newNODE->player_info[i].points = player->points;
+    }
+
+    newNODE->next = *head;
+
+    *head = newNODE;
+}
+
 void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FILE *output_file, NODE *head, int round,
-                      BSTNode *top8) {
+                      NODE **top8) {
     if (isEmpty(queue) || queue->front == queue->rear)
         return;
 
@@ -399,7 +435,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
     if (getSize(winner_stack) == 8) {
         NODE *temporary = winner_stack->top;
         while (temporary != NULL) {
-            top8 = insert(top8, temporary);
+            add_top8_to_beginning(top8, temporary);
             temporary = temporary->next;
         }
     }

@@ -42,7 +42,11 @@ typedef struct Queue {
 
 void print(NODE *);
 
+void print_top8(NODE *);
+
 void add_to_beginning(NODE **, char *, int, PLAYER *, float);
+
+void add_top8_to_beginning(NODE **, NODE *);
 
 void delete_node_by_value(NODE **, float);
 
@@ -54,7 +58,7 @@ void freeStack(STACK *);
 
 void add_nodes_to_queue(QUEUE *, NODE *);
 
-void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int, BSTNode *);
+void play_2v2_matches(QUEUE *, STACK *, STACK *, FILE *, NODE *, int, NODE **);
 
 void printQueue(QUEUE *);
 

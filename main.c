@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
     STACK *losersStack = (STACK *) malloc(sizeof(STACK));
     losersStack->top = NULL;
 
-    BSTNode *top8 = (BSTNode *) malloc(sizeof(BSTNode));
+    NODE *top8 = (NODE *) malloc(sizeof(NODE));
     top8 = NULL;
 
     add_nodes_to_queue(matchQueue, head);
@@ -130,13 +130,13 @@ int main(int argc, char **argv) {
     }
 
     if (strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0)
-        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, top8);
+        play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8);
 
 
     if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
         fprintf(output_file, "\n");
         fprintf(output_file, "TOP 8 TEAMS:\n");
-        printBSTInOrderToFile(top8, output_file);
+        print_top8(top8);
         //preorderTraversal(top8, output_file);
     }
 

@@ -4,6 +4,7 @@ void print(NODE *head) {
     while (head != NULL) {
         printf("%d ", head->player_number);
         printf("%s\n", head->team_name);
+        printf("%f", head->score);
         for (int i = 0; i < head->player_number; i++) {
             printf("%s  %s  %d \n", head->player_info[i].firstName, head->player_info[i].secondName,
                    head->player_info[i].points);
@@ -56,11 +57,7 @@ void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYE
         newNODE->player_info[i].firstName = (char *) malloc(15);
         newNODE->player_info[i].secondName = (char *) malloc(15);
         newNODE->player_info[i] = player[i];
-        //strcpy(newNODE->player_info[i].firstName, player->firstName);
-        //strcpy(newNODE->player_info[i].secondName, player->secondName);
-        //newNODE->player_info[i].points = player->points;
     }
-
     newNODE->next = *head;
 
     *head = newNODE;
@@ -142,8 +139,6 @@ void enQueue(QUEUE *q, NODE *team) {
 
 // Functie pentru adaugarea unui nod nou la coada
 void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
-//    NODE *currentNODE = head;
-
     while (head != NULL) {
         enQueue(matchQueue, head);
         head = head->next;
@@ -257,23 +252,23 @@ BSTNode *newNode(NODE *team) {
     return node;
 }
 
-BSTNode *insertBSTNode(BSTNode *node, NODE *key) {
+BSTNode *insert_BST_node(BSTNode *node, NODE *key) {
 
     if (node == NULL) return newNode(key);
 
     if (key->score > node->score || (key->score == node->score && strcmp(key->team_name, node->team_name) > 0))
-        node->left = insertBSTNode(node->left, key);
+        node->left = insert_BST_node(node->left, key);
     else
-        node->right = insertBSTNode(node->right, key);
+        node->right = insert_BST_node(node->right, key);
     return node;
 }
 
-void printBSTToFile(BSTNode *root, FILE *output_file) {
+void print_BST_to_file(BSTNode *root, FILE *output_file) {
     if (root == NULL) {
         return;
     }
 
-    printBSTToFile(root->left, output_file);
+    print_BST_to_file(root->left, output_file);
 
     root->team_name[strlen(root->team_name) - 1] = '\0';
     fprintf(output_file, "%s", root->team_name);
@@ -282,10 +277,10 @@ void printBSTToFile(BSTNode *root, FILE *output_file) {
     fprintf(output_file, "-  ");
     fprintf(output_file, "%.2f\n", root->score);
 
-    printBSTToFile(root->right, output_file);
+    print_BST_to_file(root->right, output_file);
 }
 
-int getSize(STACK *stack) {
+int get_size(STACK *stack) {
     int size = 0;
     NODE *current = stack->top;
     while (current != NULL) {
@@ -328,8 +323,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
     if (isEmpty(queue) || queue->front == queue->rear)
         return;
 
-    fprintf(output_file, "\n");
-    fprintf(output_file, "--- ROUND NO:%d\n", round);
+    fprintf(output_file, "\n--- ROUND NO:%d\n", round);
 
     while (!isEmpty(queue)) {
         NODE *first_team = deQueue(queue);
@@ -379,7 +373,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
         fprintf(output_file, "%s\n", spacing2);
     }
 
-    if (getSize(winner_stack) == 8) {
+    if (get_size(winner_stack) == 8) {
         NODE *temporary = winner_stack->top;
         while (temporary != NULL) {
             add_top8_to_beginning(top8, temporary);
@@ -387,9 +381,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
         }
     }
 
-    fprintf(output_file, "\n");
-
-    fprintf(output_file, "WINNERS OF ROUND NO:%d\n", round);
+    fprintf(output_file, "\nWINNERS OF ROUND NO:%d\n", round);
 
     while (!isEmpty(winner_stack)) {
         enQueue(queue, winner_stack->top);
@@ -415,8 +407,7 @@ AVLNode *new_AVL_Node(NODE *node) {
     strcpy(AVL_node->team_name, node->team_name);
     AVL_node->score = node->score;
     AVL_node->height = 1;
-    AVL_node->left = NULL;
-    AVL_node->right = NULL;
+    AVL_node->left = AVL_node->right = NULL;
     return AVL_node;
 }
 
@@ -438,7 +429,7 @@ int max(int a, int b) {
     return b;
 }
 
-AVLNode *RightRotation(AVLNode *z) {
+AVLNode *right_rotation(AVLNode *z) {
     AVLNode *y = z->left;
     AVLNode *T3 = y->right;
 
@@ -450,7 +441,7 @@ AVLNode *RightRotation(AVLNode *z) {
     return y;
 }
 
-AVLNode *LeftRotation(AVLNode *z) {
+AVLNode *left_rotation(AVLNode *z) {
     AVLNode *y = z->right;
     AVLNode *T2 = y->left;
 
@@ -463,84 +454,67 @@ AVLNode *LeftRotation(AVLNode *z) {
     return y;
 }
 
-AVLNode *insertAVLNode(AVLNode *root, NODE *team) {
+AVLNode *insert_AVL_node(AVLNode *root, NODE *team) {
     if (root == NULL)
         return new_AVL_Node(team);
 
     if (team->score > root->score || (team->score == root->score && strcmp(team->team_name, root->team_name) > 0))
-        root->left = insertAVLNode(root->left, team);
+        root->right = insert_AVL_node(root->right, team);
     else
-        root->right = insertAVLNode(root->right, team);
+        root->left = insert_AVL_node(root->left, team);
 
     root->height = max(get_height(root->left), get_height(root->right)) + 1;
 
     int balance = get_balance(root);
 
-    if (balance > 1 && team->score > root->left->score)
-        return RightRotation(root);
+    if (balance > 1 && team->score < root->left->score)
+        return right_rotation(root);
 
-    if (balance < -1 && team->score < root->right->score)
-        return LeftRotation(root);
+    if (balance < -1 && team->score > root->right->score)
+        return left_rotation(root);
 
-    if (balance > 1 && team->score < root->left->score) {
-        root->left = LeftRotation(root->left);
-        return RightRotation(root);
+    if (balance < -1 && team->score < root->right->score) {
+        root->right = right_rotation(root->right);
+        return left_rotation(root);
     }
 
-    if (balance < -1 && team->score > root->right->score) {
-        root->right = RightRotation(root->right);
-        return LeftRotation(root);
+    if (balance > 1 && team->score > root->left->score) {
+        root->left = left_rotation(root->left);
+        return right_rotation(root);
     }
 
     return root;
 }
 
-//AVLNode *insertAVLNode(AVLNode *node, NODE *key) {
-//// 1. inserare nod
-//    if (node == NULL) {
-//        node = (AVLNode *) malloc(sizeof(AVLNode));
-//        node->team_name = (char *) malloc(70);
-//        strcpy(node->team_name, key->team_name);
-//        node->score = key->score;
-//        node->height = 0; // adaugare ca frunza
-//        node->left = node->right = NULL;
-//        return node;
-//    }
-//    if (key->score < node->score)
-//        node->left = insertAVLNode(node->left, key);
-//    else if (key->score > node->score)
-//        node->right = insertAVLNode(node->right, key);
-//    else return node; // nu exista chei duplicat
-//    node->height = 1 + max(get_height(node->left), get_height(node->right));
-//    int k = (get_height(node->left) - get_height(node->right));
-//    if (k > 1 && key->score < node->left->score)
-//        return RightRotation(node);
-//    if (k < -1 && key->score > node->right->score)
-//        return LeftRotation(node);
-//
-//    if (k > 1 && key->score > node->left->score)
-//        return RLRotation(node);
-//
-//    if (k < -1 && key->score < node->right->score)
-//        return LRRotation(node);
-//    return node; // returneaza nodul nemodificat
-//}
-
-
-void printAVLAtLevel2(AVLNode *root, int level, FILE *output_file) {
+void print_AVL_at_level_2(AVLNode *root, int level, FILE *output_file) {
     if (root == NULL)
         return;
 
-    if (root->left != NULL && root->right != NULL && level == 2) {
-        fprintf(output_file, "%s\n", root->left->team_name);
-        fprintf(output_file, "%s\n", root->right->team_name);
-        return;
+    print_AVL_at_level_2(root->right, level + 1, output_file);
+
+    if (level == 2) {
+        if (root->left != NULL)
+            fprintf(output_file, "%s\n", root->left->team_name);
+        if (root->right != NULL)
+            fprintf(output_file, "%s\n", root->right->team_name);
     }
 
-    printAVLAtLevel2(root->left, level + 1, output_file);
-    printAVLAtLevel2(root->right, level + 1, output_file);
+    print_AVL_at_level_2(root->left, level + 1, output_file);
 }
 
+void print_level(AVLNode * root, int level, FILE* output_file){
+    if(root == NULL)
+        return;
+    if(level == 1) fprintf(output_file, "%s ", root->team_name);
+    else if(level > 1){
+        print_level(root->left, level-1, output_file);
+        print_level(root->right, level-1, output_file);
+    }
+}
 
-
-
+void level_order_traversal(AVLNode* root, FILE* output_file){
+    int h = get_height(root);
+    for (int i = 0; i < h; i++) {
+        print_level(root, i+1, output_file);
+    }
+}

@@ -7,15 +7,13 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    FILE *output_file = fopen(argv[3], "w"); // Open file for writing
+    FILE *output_file = fopen(argv[3], "w");
     if (output_file == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
     }
 
     FILE *tasks = fopen(argv[1], "r");
-
-
     if (tasks == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
@@ -23,22 +21,20 @@ int main(int argc, char **argv) {
 
     char task_buffer[10];
     fgets(task_buffer, sizeof(task_buffer), tasks);
-    char *task1, *task2, *task3, *task4, *task5;
+    char task1, task2, task3, task4, task5;
+    task1 = task_buffer[0];
+    task2 = task_buffer[2];
+    task3 = task_buffer[4];
+    task4 = task_buffer[6];
+    task5 = task_buffer[8];
 
-    task1 = strtok(task_buffer, " ");
-    task2 = strtok(NULL, " ");
-    task3 = strtok(NULL, " ");
-    task4 = strtok(NULL, " ");
-    task5 = strtok(NULL, " ");
-
-    NODE *head = NULL;
-    NODE *team;
+    NODE *team, *head = NULL;
     team = (NODE *) malloc(sizeof(NODE));
     team->team_name = (char *) malloc(30);
 
-    char *buffer = NULL;
-    buffer = (char *) malloc(100);
-    char *line;
+    char *buffer = NULL; //buffer pentru citirea din fisier
+    buffer = (char *) malloc(100); //alocarea memoriei pentru buffer
+    char *line; //linie pentru strtok
 
     int number_of_teams = atoi(fgets(buffer, sizeof(buffer), file));
 
@@ -60,10 +56,11 @@ int main(int argc, char **argv) {
             line = strtok(NULL, " ");
         }
 
-        team_name[strlen(team_name) - 2] = '\0';
+        team_name[strlen(team_name) - 2] = '\0'; //stergerea spatiului si a \n-ului de la finalul numelui echipei
 
         PLAYER players[number_of_players];
 
+        //Citirea numelui jucatorilor si a punctelor lor
         for (int j = 0; j < number_of_players; j++) {
             fgets(buffer, 100, file);
             line = strtok(buffer, " ");
@@ -76,32 +73,31 @@ int main(int argc, char **argv) {
             players[j].points = atoi(line);
             sum += players[j].points;
         }
-        teams_sum[i] = (float) sum / number_of_players;
-        fgets(buffer, 5, file);
-        add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]);
+        teams_sum[i] = (float) sum / number_of_players; //scrierea in vector a mediei punctelor
+        fgets(buffer, 5, file); //citirea liniei goale dintre echipe
+        add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]); //adaugarea echipei in lista
     }
 
     NODE *current;
-    if (strcmp(task1, "1") == 0 && strcmp(task2, "0") == 0) {
+    if (task1 == '1' && task2 == '0') {
         current = head;
         while (current != NULL) {
             fprintf(output_file, "%s\n", current->team_name);
-            current = current->next;
+            current = current->next; //parcurgerea listei si scrierea in fisier a numelor echipelor
         }
         free(current);
     }
 
-    bubble_sort(teams_sum, number_of_teams);
+    bubble_sort(teams_sum, number_of_teams); //sortarea vectorului cu mediile punctelor
 
-    int x;
+    int x; //x = 2^k, unde k este cel mai mare numar pentru care 2^k < numarul de echipe
     for (x = 2; 1; x = x * 2)
         if (x > number_of_teams) {
             x /= 2;
             break;
         }
-    for (int i = 0; i < number_of_teams - x; i++) {
+    for (int i = 0; i < number_of_teams - x; i++) //stergerea echipelor care nu au meci
         delete_node_by_value(&head, teams_sum[i]);
-    }
 
     QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
     matchQueue->front = NULL;
@@ -123,52 +119,52 @@ int main(int argc, char **argv) {
     AVLNode *top8_AVL = (AVLNode *) malloc(sizeof(AVLNode));
     top8_AVL = NULL;
 
-    add_nodes_to_queue(matchQueue, head);
+    add_nodes_to_queue(matchQueue, head); //adaugarea nodurilor din lista in coada
 
-    if ((strcmp(task2, "1")) == 0 || strcmp(task3, "1") == 0) {
+    //parcurgerea cozii si scrierea in fisier a meciurilor
+    if (task2 == '1' && task1 == '1') {
         current = head;
         while (current != NULL) {
-            trim_leading_whitespace(current->team_name);
-            trim_trailing_whitespace(current->team_name);
+            trim_leading_whitespace(current->team_name); //stergerea spatiilor de la inceputul si sfarsitul numelor echipelor
+            trim_trailing_whitespace(current->team_name); //pentru a nu avea probleme la scrierea in fisier
             fprintf(output_file, "%s\n", current->team_name);
             current = current->next;
         }
         free(current);
     }
-
-    if (strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0)
+    //parcurgerea cozii si scrierea in fisier a meciurilor
+    if (task3 == '1' && task2 == '1' && task1 == '1')
         play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8_list);
 
-//    print(top8_list);
-
-    if (strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 && strcmp(task1, "1") == 0) {
+    //parcurgerea listei cu echipele de top 8 si adaugarea lor in BST
+    if (task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
         fprintf(output_file, "\n");
         fprintf(output_file, "TOP 8 TEAMS:\n");
-        temp = top8_list;
+        temp = top8_list; //parcurgerea listei cu echipele de top 8
         while (temp != NULL) {
-            top8_BST = insertBSTNode(top8_BST, temp);
-            temp = temp->next;
+            top8_BST = insert_BST_node(top8_BST, temp); //adaugarea nodurilor din lista in BST
+            temp = temp->next; //pentru a putea fi parcurse in ordine
         }
         free(temp);
-        printBSTToFile(top8_BST, output_file);
+        print_BST_to_file(top8_BST, output_file);
     }
-
-    if (strcmp(task5, "1") == 0 && strcmp(task4, "1") == 0 && strcmp(task3, "1") == 0 && strcmp(task2, "1") == 0 &&
-        strcmp(task1, "1") == 0) {
+    //parcurgerea listei cu echipele de top 8 si adaugarea lor in AVL
+    if (task5 == '1' && task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
         fprintf(output_file, "\n");
         fprintf(output_file, "THE LEVEL 2 TEAMS ARE:\n");
         temp = top8_list;
         while (temp != NULL) {
-            top8_AVL = insertAVLNode(top8_AVL, temp);
+            top8_AVL = insert_AVL_node(top8_AVL, temp);
             temp = temp->next;
         }
         free(temp);
-//        preorderTraversal(top8_AVL, output_file);
-        printAVLAtLevel2(top8_AVL, 1, output_file);
-
-        fclose(file);
-        fclose(output_file);
-        fclose(tasks);
-        return 0;
+        print_AVL_at_level_2(top8_AVL, 1, output_file);
+        fprintf(output_file, "\n");
+        level_order_traversal(top8_AVL, output_file);
     }
+    //inchiderea fisierelor
+    fclose(file);
+    fclose(output_file);
+    fclose(tasks);
+    return 0;
 }

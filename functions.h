@@ -72,12 +72,12 @@ void trim_leading_whitespace(char *);
 
 void trim_trailing_whitespace(char *);
 
-BSTNode *insertBSTNode(BSTNode *, NODE *);
+BSTNode *insert_BST_node(BSTNode *, NODE *);
 
-void printBSTToFile(BSTNode *, FILE *);
+void print_BST_to_file(BSTNode *, FILE *);
 
-AVLNode *insertAVLNode(AVLNode *, NODE *);
+AVLNode *insert_AVL_node(AVLNode *, NODE *);
 
-void printAVLAtLevel2(AVLNode *,int, FILE *);
+void print_AVL_at_level_2(AVLNode *, int, FILE *);
 
-void preorderTraversal(AVLNode *, FILE *);
+void level_order_traversal(AVLNode *, FILE *);

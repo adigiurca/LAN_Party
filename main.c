@@ -22,11 +22,7 @@ int main(int argc, char **argv) {
     char task_buffer[10];
     fgets(task_buffer, sizeof(task_buffer), tasks);
     char task1, task2, task3, task4, task5;
-    task1 = task_buffer[0];
-    task2 = task_buffer[2];
-    task3 = task_buffer[4];
-    task4 = task_buffer[6];
-    task5 = task_buffer[8];
+    task1 = task_buffer[0]; task2 = task_buffer[2]; task3 = task_buffer[4]; task4 = task_buffer[6]; task5 = task_buffer[8];
 
     NODE *team, *head = NULL;
     team = (NODE *) malloc(sizeof(NODE));
@@ -44,35 +40,15 @@ int main(int argc, char **argv) {
     //Citirea valorilor din fisier si adaugarea lor la inceputul listei
     for (int i = 0; i < number_of_teams; i++) {
         int sum = 0;
-        char team_name[70];
-        memset(team_name, 0, 70);
-        fgets(buffer, 100, file);
-        line = strtok(buffer, " ");
-        int number_of_players = atoi(line);
-        line = strtok(NULL, " ");
-        while (line != NULL) {
-            strcat(team_name, line);
-            strcat(team_name, " ");
-            line = strtok(NULL, " ");
-        }
-
-        team_name[strlen(team_name) - 2] = '\0'; //stergerea spatiului si a \n-ului de la finalul numelui echipei
+        char *team_name;
+        int number_of_players;
+        process_team(file, &team_name, &number_of_players, &sum); //citirea numelui echipei si a numarului de jucatori
 
         PLAYER players[number_of_players];
 
         //Citirea numelui jucatorilor si a punctelor lor
-        for (int j = 0; j < number_of_players; j++) {
-            fgets(buffer, 100, file);
-            line = strtok(buffer, " ");
-            players[j].firstName = (char *) malloc(strlen(line) + 5);
-            strcpy(players[j].firstName, line);
-            line = strtok(NULL, " ");
-            players[j].secondName = (char *) malloc(strlen(line) + 5);
-            strcpy(players[j].secondName, line);
-            line = strtok(NULL, " ");
-            players[j].points = atoi(line);
-            sum += players[j].points;
-        }
+        process_players(file, players, number_of_players, &sum);
+
         teams_sum[i] = (float) sum / number_of_players; //scrierea in vector a mediei punctelor
         fgets(buffer, 5, file); //citirea liniei goale dintre echipe
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]); //adaugarea echipei in lista
@@ -88,36 +64,23 @@ int main(int argc, char **argv) {
         free(current);
     }
 
-    bubble_sort(teams_sum, number_of_teams); //sortarea vectorului cu mediile punctelor
+    bubble_sort(teams_sum, number_of_teams); //sortarea crescatoare a vectorului cu mediile punctelor
 
-    int x; //x = 2^k, unde k este cel mai mare numar pentru care 2^k < numarul de echipe
-    for (x = 2; 1; x = x * 2)
-        if (x > number_of_teams) {
-            x /= 2;
-            break;
-        }
-    for (int i = 0; i < number_of_teams - x; i++) //stergerea echipelor care nu au meci
+    int x = 1; //x = 2^k, unde k este cel mai mare numar pentru care 2^k < numarul de echipe
+    while (x <= number_of_teams) {
+        x *= 2;
+    }
+    x /= 2;
+    for (int i = 0; i < number_of_teams - x; i++) //stergerea primelor number_of_teams - x echipe
         delete_node_by_value(&head, teams_sum[i]);
 
-    QUEUE *matchQueue = (QUEUE *) malloc(sizeof(QUEUE));
-    matchQueue->front = NULL;
-    matchQueue->rear = NULL;
-
-    STACK *winnersStack = (STACK *) malloc(sizeof(STACK));
-    winnersStack->top = NULL;
-
-    STACK *losersStack = (STACK *) malloc(sizeof(STACK));
-    losersStack->top = NULL;
-
-    NODE *top8_list = (NODE *) malloc(sizeof(NODE));
-    top8_list = NULL;
-
-    NODE *temp = (NODE *) malloc(sizeof(NODE));
-
+    QUEUE *matchQueue = calloc(1, sizeof(QUEUE));
+    STACK *winnersStack = calloc(1, sizeof(STACK));
+    STACK *losersStack = calloc(1, sizeof(STACK));
+    NODE *top8_list = NULL;
+    NODE *temp = NULL;
     BSTNode *top8_BST = NULL;
-
-    AVLNode *top8_AVL = (AVLNode *) malloc(sizeof(AVLNode));
-    top8_AVL = NULL;
+    AVLNode *top8_AVL = NULL;
 
     add_nodes_to_queue(matchQueue, head); //adaugarea nodurilor din lista in coada
 
@@ -143,10 +106,11 @@ int main(int argc, char **argv) {
         temp = top8_list; //parcurgerea listei cu echipele de top 8
         while (temp != NULL) {
             top8_BST = insert_BST_node(top8_BST, temp); //adaugarea nodurilor din lista in BST
-            temp = temp->next; //pentru a putea fi parcurse in ordine
+            temp = temp->next;
         }
         free(temp);
         print_BST_to_file(top8_BST, output_file);
+
     }
     //parcurgerea listei cu echipele de top 8 si adaugarea lor in AVL
     if (task5 == '1' && task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
@@ -159,8 +123,6 @@ int main(int argc, char **argv) {
         }
         free(temp);
         print_AVL_at_level_2(top8_AVL, 1, output_file);
-        fprintf(output_file, "\n");
-        level_order_traversal(top8_AVL, output_file);
     }
     //inchiderea fisierelor
     fclose(file);

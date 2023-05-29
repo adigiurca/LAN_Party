@@ -1,3 +1,0 @@
-C:/Users/agiur/OneDrive/Documents/GitHub/LAN_Party/cmake-build-debug/CMakeFiles/LAN_Party.dir
-C:/Users/agiur/OneDrive/Documents/GitHub/LAN_Party/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/agiur/OneDrive/Documents/GitHub/LAN_Party/cmake-build-debug/CMakeFiles/rebuild_cache.dir

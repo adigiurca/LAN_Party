@@ -60,7 +60,7 @@ void delete_node_by_value(NODE **, float);
 
 void bubble_sort(float *, int);
 
-TEAM *deQueue(QUEUE *);
+NODE *deQueue(QUEUE *);
 
 void freeStack(STACK *);
 
@@ -81,3 +81,7 @@ AVLNode *insert_AVL_node(AVLNode *, NODE *);
 void print_AVL_at_level_2(AVLNode *, int, FILE *);
 
 void level_order_traversal(AVLNode *, FILE *);
+
+void process_players(FILE *, PLAYER *, int , int *);
+
+void process_team(FILE *, char **, int *, int *);

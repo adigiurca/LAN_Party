@@ -145,13 +145,57 @@ void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
     }
 }
 
+void process_players(FILE *file, PLAYER *players, int number_of_players, int *sum) {
+    char buffer[100];
+    char *line;
+
+    for (int j = 0; j < number_of_players; j++) {
+        fgets(buffer, sizeof(buffer), file);
+        line = strtok(buffer, " ");
+
+        players[j].firstName = (char *) malloc(strlen(line) + 5);
+        strcpy(players[j].firstName, line);
+
+        line = strtok(NULL, " ");
+        players[j].secondName = (char *) malloc(strlen(line) + 5);
+        strcpy(players[j].secondName, line);
+
+        line = strtok(NULL, " ");
+        players[j].points = atoi(line);
+
+        *sum += players[j].points;
+    }
+}
+
+void process_team(FILE *file, char **team_name, int *number_of_players, int *sum) {
+    char buffer[100];
+    char *line;
+
+    *sum = 0;
+    *team_name = calloc(30, sizeof(char));
+
+    fgets(buffer, 100, file);
+    line = strtok(buffer, " ");
+    *number_of_players = atoi(line);
+    line = strtok(NULL, " ");
+
+    while (line != NULL) {
+        strcat(*team_name, line);
+        strcat(*team_name, " ");
+        line = strtok(NULL, " ");
+    }
+
+    (*team_name)[strlen(*team_name) - 2] = '\0';
+}
+
+
 // Functie pentru extragerea unui nod din coada
-TEAM *deQueue(QUEUE *queue) {
+NODE *deQueue(QUEUE *queue) {
     if (isEmpty(queue))
         return NULL;
 
     NODE *aux = queue->front;
-    TEAM *d = (TEAM *) malloc(sizeof(TEAM));
+    NODE *d = (NODE *) malloc(sizeof(NODE));
     if (d == NULL) {
         printf("Eroare la alocarea memoriei!");
         return NULL;
@@ -384,7 +428,7 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
     fprintf(output_file, "\nWINNERS OF ROUND NO:%d\n", round);
 
     while (!isEmpty(winner_stack)) {
-        enQueue(queue, winner_stack->top);
+        enQueue(queue, winner_stack->top); // adaugam inapoi in coada castigatorii
         NODE *temp = pop(winner_stack);
         temp->team_name[strlen(temp->team_name) - 1] = '\0';
         fprintf(output_file, "%s", temp->team_name);

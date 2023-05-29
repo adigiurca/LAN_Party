@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/agiur/OneDrive/Documents/GitHub/LAN_Party
+# Install script for directory: C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/agiur/OneDrive/Documents/GitHub/LAN_Party/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

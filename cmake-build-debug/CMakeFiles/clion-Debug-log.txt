@@ -1,13 +1,4 @@
 "C:\Program Files\JetBrains\CLion 2022.3\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA -B C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\cmake-build-debug
 -- Configuring done
-CMake Error at CMakeLists.txt:6 (add_executable):
-  Cannot find source file:
-
-    ../../../../../../GOG Games/lan-party-02-checker-main/main.c
-
-
-CMake Error at CMakeLists.txt:6 (add_executable):
-  No SOURCES given to target: LAN_Party
-
-
-CMake Generate step failed.  Build files cannot be regenerated correctly.
+-- Generating done
+-- Build files have been written to: C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/cmake-build-debug

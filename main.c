@@ -30,7 +30,6 @@ int main(int argc, char **argv) {
 
     char *buffer = NULL; //buffer pentru citirea din fisier
     buffer = (char *) malloc(100); //alocarea memoriei pentru buffer
-    char *line; //linie pentru strtok
 
     int number_of_teams = atoi(fgets(buffer, sizeof(buffer), file));
 
@@ -52,6 +51,7 @@ int main(int argc, char **argv) {
         teams_sum[i] = (float) sum / number_of_players; //scrierea in vector a mediei punctelor
         fgets(buffer, 5, file); //citirea liniei goale dintre echipe
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]); //adaugarea echipei in lista
+        free(buffer);
     }
 
     NODE *current;

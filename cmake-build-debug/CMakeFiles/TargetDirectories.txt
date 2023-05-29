@@ -1,0 +1,3 @@
+C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/cmake-build-debug/CMakeFiles/LAN_Party.dir
+C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -8,10 +8,10 @@
 		},
 		"paths" : 
 		{
-			"cmake" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/cmake.exe",
-			"cpack" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/cpack.exe",
-			"ctest" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/bin/ctest.exe",
-			"root" : "C:/Program Files/JetBrains/CLion 2022.3/bin/cmake/win/x64/share/cmake-3.25"
+			"cmake" : "C:/Users/agiur/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.8109.174/bin/cmake/win/x64/bin/cmake.exe",
+			"cpack" : "C:/Users/agiur/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.8109.174/bin/cmake/win/x64/bin/cpack.exe",
+			"ctest" : "C:/Users/agiur/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.8109.174/bin/cmake/win/x64/bin/ctest.exe",
+			"root" : "C:/Users/agiur/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.8109.174/bin/cmake/win/x64/share/cmake-3.25"
 		},
 		"version" : 
 		{
@@ -35,7 +35,7 @@
 			}
 		},
 		{
-			"jsonFile" : "cache-v2-fd15c9f460bea82cef56.json",
+			"jsonFile" : "cache-v2-c20f0d23fe482b164fb1.json",
 			"kind" : "cache",
 			"version" : 
 			{
@@ -44,7 +44,7 @@
 			}
 		},
 		{
-			"jsonFile" : "cmakeFiles-v1-99546bea7e119f3781d3.json",
+			"jsonFile" : "cmakeFiles-v1-e452c8a7866d8347430e.json",
 			"kind" : "cmakeFiles",
 			"version" : 
 			{
@@ -53,7 +53,7 @@
 			}
 		},
 		{
-			"jsonFile" : "toolchains-v1-1d0d496d185bd4493da7.json",
+			"jsonFile" : "toolchains-v1-359c67a8d5d0bf7bcef4.json",
 			"kind" : "toolchains",
 			"version" : 
 			{
@@ -66,7 +66,7 @@
 	{
 		"cache-v2" : 
 		{
-			"jsonFile" : "cache-v2-fd15c9f460bea82cef56.json",
+			"jsonFile" : "cache-v2-c20f0d23fe482b164fb1.json",
 			"kind" : "cache",
 			"version" : 
 			{
@@ -76,7 +76,7 @@
 		},
 		"cmakeFiles-v1" : 
 		{
-			"jsonFile" : "cmakeFiles-v1-99546bea7e119f3781d3.json",
+			"jsonFile" : "cmakeFiles-v1-e452c8a7866d8347430e.json",
 			"kind" : "cmakeFiles",
 			"version" : 
 			{
@@ -96,7 +96,7 @@
 		},
 		"toolchains-v1" : 
 		{
-			"jsonFile" : "toolchains-v1-1d0d496d185bd4493da7.json",
+			"jsonFile" : "toolchains-v1-359c67a8d5d0bf7bcef4.json",
 			"kind" : "toolchains",
 			"version" : 
 			{

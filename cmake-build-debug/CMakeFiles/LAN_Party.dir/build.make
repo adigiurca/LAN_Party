@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2022.3\bin\cmake\win\x64\bin\cmake.exe"
+CMAKE_COMMAND = C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\cmake\win\x64\bin\cmake.exe
 
 # The command to remove a file.
-RM = "C:\Program Files\JetBrains\CLion 2022.3\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
+RM = C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\cmake\win\x64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -72,29 +72,29 @@ CMakeFiles/LAN_Party.dir/main.c.obj: CMakeFiles/LAN_Party.dir/flags.make
 CMakeFiles/LAN_Party.dir/main.c.obj: C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/main.c
 CMakeFiles/LAN_Party.dir/main.c.obj: CMakeFiles/LAN_Party.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/LAN_Party.dir/main.c.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LAN_Party.dir/main.c.obj -MF CMakeFiles\LAN_Party.dir\main.c.obj.d -o CMakeFiles\LAN_Party.dir\main.c.obj -c C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LAN_Party.dir/main.c.obj -MF CMakeFiles\LAN_Party.dir\main.c.obj.d -o CMakeFiles\LAN_Party.dir\main.c.obj -c C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c
 
 CMakeFiles/LAN_Party.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/LAN_Party.dir/main.c.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c > CMakeFiles\LAN_Party.dir\main.c.i
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c > CMakeFiles\LAN_Party.dir\main.c.i
 
 CMakeFiles/LAN_Party.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/LAN_Party.dir/main.c.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c -o CMakeFiles\LAN_Party.dir\main.c.s
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\main.c -o CMakeFiles\LAN_Party.dir\main.c.s
 
 CMakeFiles/LAN_Party.dir/functions.c.obj: CMakeFiles/LAN_Party.dir/flags.make
 CMakeFiles/LAN_Party.dir/functions.c.obj: C:/Users/agiur/OneDrive/Documents/GitHub/Tema_PA/functions.c
 CMakeFiles/LAN_Party.dir/functions.c.obj: CMakeFiles/LAN_Party.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/LAN_Party.dir/functions.c.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LAN_Party.dir/functions.c.obj -MF CMakeFiles\LAN_Party.dir\functions.c.obj.d -o CMakeFiles\LAN_Party.dir\functions.c.obj -c C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LAN_Party.dir/functions.c.obj -MF CMakeFiles\LAN_Party.dir\functions.c.obj.d -o CMakeFiles\LAN_Party.dir\functions.c.obj -c C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c
 
 CMakeFiles/LAN_Party.dir/functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/LAN_Party.dir/functions.c.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c > CMakeFiles\LAN_Party.dir\functions.c.i
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c > CMakeFiles\LAN_Party.dir\functions.c.i
 
 CMakeFiles/LAN_Party.dir/functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/LAN_Party.dir/functions.c.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c -o CMakeFiles\LAN_Party.dir\functions.c.s
+	C:\Users\agiur\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.8109.174\bin\mingw\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\agiur\OneDrive\Documents\GitHub\Tema_PA\functions.c -o CMakeFiles\LAN_Party.dir\functions.c.s
 
 # Object files for target LAN_Party
 LAN_Party_OBJECTS = \

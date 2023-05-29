@@ -85,3 +85,7 @@ void level_order_traversal(AVLNode *, FILE *);
 void process_players(FILE *, PLAYER *, int , int *);
 
 void process_team(FILE *, char **, int *, int *);
+
+void free_BST(BSTNode *);
+
+void free_AVL(AVLNode *);

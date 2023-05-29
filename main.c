@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
         }
         free(temp);
         print_BST_to_file(top8_BST, output_file);
-
+        free_BST(top8_BST);
     }
     //parcurgerea listei cu echipele de top 8 si adaugarea lor in AVL
     if (task5 == '1' && task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
@@ -123,6 +123,7 @@ int main(int argc, char **argv) {
         }
         free(temp);
         print_AVL_at_level_2(top8_AVL, 1, output_file);
+        free_AVL(top8_AVL);
     }
     //inchiderea fisierelor
     fclose(file);

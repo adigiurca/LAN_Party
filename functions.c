@@ -445,6 +445,16 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
     play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, ++round, top8);
 }
 
+void free_BST(BSTNode *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    free_BST(node->left);
+    free_BST(node->right);
+    free(node);
+}
+
 AVLNode *new_AVL_Node(NODE *node) {
     AVLNode *AVL_node = (AVLNode *) malloc(sizeof(AVLNode));
     AVL_node->team_name = (char *) malloc(70);
@@ -561,4 +571,14 @@ void level_order_traversal(AVLNode* root, FILE* output_file){
     for (int i = 0; i < h; i++) {
         print_level(root, i+1, output_file);
     }
+}
+
+void free_AVL(AVLNode *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    free_AVL(node->left);
+    free_AVL(node->right);
+    free(node);
 }

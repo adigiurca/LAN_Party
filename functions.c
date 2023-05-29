@@ -63,7 +63,6 @@ void add_to_beginning(NODE **head, char *team_name, int number_of_players, PLAYE
     *head = newNODE;
 }
 
-
 void delete_node_by_value(NODE **head, float points) {
 
     if (*head == NULL) return;
@@ -142,6 +141,18 @@ void add_nodes_to_queue(QUEUE *matchQueue, NODE *head) {
     while (head != NULL) {
         enQueue(matchQueue, head);
         head = head->next;
+    }
+}
+
+void print_and_free_teams(NODE *head, FILE *output_file) {
+    NODE *current = head;
+    while (current != NULL) {
+        trim_leading_whitespace(current->team_name);
+        trim_trailing_whitespace(current->team_name);
+        fprintf(output_file, "%s\n", current->team_name);
+        NODE *temp = current;
+        current = current->next;
+        free(temp);
     }
 }
 
@@ -374,34 +385,22 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
         NODE *second_team = deQueue(queue);
 
         if (first_team->score > second_team->score) {
-            first_team->score = first_team->score + 1;
+            first_team->score += 1;
             push(winner_stack, first_team);
             push(loser_stack, second_team);
         } else if (first_team->score <= second_team->score) {
-            second_team->score = second_team->score + 1;
+            second_team->score += 1;
             push(winner_stack, second_team);
             push(loser_stack, first_team);
         }
 
-        char *spacing1;
-        char *spacing2;
-        spacing1 = (char *) malloc(70);
-        spacing2 = (char *) malloc(70);
+        char spacing1[70], spacing2[70];
         strcpy(spacing1, first_team->team_name);
         strcpy(spacing2, second_team->team_name);
 
-        spacing1[strlen(spacing1) - 1] = '\0';
-        spacing2[strlen(spacing2) - 1] = '\0';
-
-        if (spacing1[strlen(spacing1) - 1] == '\n') {
-            spacing1[strlen(spacing1) - 1] = '\0';
-        }
         trim_leading_whitespace(spacing1);
         trim_trailing_whitespace(spacing1);
 
-        if (spacing2[strlen(spacing2) - 1] == '\n') {
-            spacing2[strlen(spacing2) - 1] = '\0';
-        }
         trim_leading_whitespace(spacing2);
         trim_trailing_whitespace(spacing2);
 
@@ -432,18 +431,15 @@ void play_2v2_matches(QUEUE *queue, STACK *winner_stack, STACK *loser_stack, FIL
         NODE *temp = pop(winner_stack);
         temp->team_name[strlen(temp->team_name) - 1] = '\0';
         fprintf(output_file, "%s", temp->team_name);
-
         for (int i = 0; i < 34 - strlen(temp->team_name); i++)
             fprintf(output_file, " ");
-
         fprintf(output_file, "-  ");
-
         fprintf(output_file, "%.2f\n", temp->score);
     }
-
     freeStack(loser_stack);
     play_2v2_matches(queue, winner_stack, loser_stack, output_file, head, ++round, top8);
 }
+
 
 void free_BST(BSTNode *node) {
     if (node == NULL) {

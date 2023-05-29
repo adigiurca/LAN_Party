@@ -2,19 +2,9 @@
 
 int main(int argc, char **argv) {
     FILE *file = fopen(argv[2], "r");
-    if (file == NULL) {
-        printf("Eroare la deschiderea fisierului!");
-        return 1;
-    }
-
     FILE *output_file = fopen(argv[3], "w");
-    if (output_file == NULL) {
-        printf("Eroare la deschiderea fisierului!");
-        return 1;
-    }
-
     FILE *tasks = fopen(argv[1], "r");
-    if (tasks == NULL) {
+    if (file == NULL || output_file == NULL || tasks == NULL) {
         printf("Eroare la deschiderea fisierului!");
         return 1;
     }
@@ -51,7 +41,6 @@ int main(int argc, char **argv) {
         teams_sum[i] = (float) sum / number_of_players; //scrierea in vector a mediei punctelor
         fgets(buffer, 5, file); //citirea liniei goale dintre echipe
         add_to_beginning(&head, team_name, number_of_players, players, teams_sum[i]); //adaugarea echipei in lista
-        free(buffer);
     }
 
     NODE *current;
@@ -61,7 +50,6 @@ int main(int argc, char **argv) {
             fprintf(output_file, "%s\n", current->team_name);
             current = current->next; //parcurgerea listei si scrierea in fisier a numelor echipelor
         }
-        free(current);
     }
 
     bubble_sort(teams_sum, number_of_teams); //sortarea crescatoare a vectorului cu mediile punctelor
@@ -85,24 +73,15 @@ int main(int argc, char **argv) {
     add_nodes_to_queue(matchQueue, head); //adaugarea nodurilor din lista in coada
 
     //parcurgerea cozii si scrierea in fisier a meciurilor
-    if (task2 == '1' && task1 == '1') {
-        current = head;
-        while (current != NULL) {
-            trim_leading_whitespace(current->team_name); //stergerea spatiilor de la inceputul si sfarsitul numelor echipelor
-            trim_trailing_whitespace(current->team_name); //pentru a nu avea probleme la scrierea in fisier
-            fprintf(output_file, "%s\n", current->team_name);
-            current = current->next;
-        }
-        free(current);
-    }
+    if (task2 == '1' && task1 == '1')
+        print_and_free_teams(head, output_file);
     //parcurgerea cozii si scrierea in fisier a meciurilor
     if (task3 == '1' && task2 == '1' && task1 == '1')
         play_2v2_matches(matchQueue, winnersStack, losersStack, output_file, head, 1, &top8_list);
 
     //parcurgerea listei cu echipele de top 8 si adaugarea lor in BST
     if (task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
-        fprintf(output_file, "\n");
-        fprintf(output_file, "TOP 8 TEAMS:\n");
+        fprintf(output_file, "\nTOP 8 TEAMS:\n");
         temp = top8_list; //parcurgerea listei cu echipele de top 8
         while (temp != NULL) {
             top8_BST = insert_BST_node(top8_BST, temp); //adaugarea nodurilor din lista in BST
@@ -114,8 +93,7 @@ int main(int argc, char **argv) {
     }
     //parcurgerea listei cu echipele de top 8 si adaugarea lor in AVL
     if (task5 == '1' && task4 == '1' && task3 == '1' && task2 == '1' && task1 == '1') {
-        fprintf(output_file, "\n");
-        fprintf(output_file, "THE LEVEL 2 TEAMS ARE:\n");
+        fprintf(output_file, "\nTHE LEVEL 2 TEAMS ARE:\n");
         temp = top8_list;
         while (temp != NULL) {
             top8_AVL = insert_AVL_node(top8_AVL, temp);

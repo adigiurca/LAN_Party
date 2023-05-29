@@ -89,3 +89,5 @@ void process_team(FILE *, char **, int *, int *);
 void free_BST(BSTNode *);
 
 void free_AVL(AVLNode *);
+
+void print_and_free_teams(NODE *, FILE *);

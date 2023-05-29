@@ -16,4 +16,4 @@ La task-ul 4 am folosit lista salvata la task-ul anterior pentru a introduce ech
 
 Task-ul 5 nu este implementat in totalitate, doar agaugarea in AVL a listei salvate la punctul 3.
 
-Consider ca aceasta metoda de implementare este costisitoare din punct de vedere al memoriei, insa este rapida.
+Consider ca aceasta metoda de implementare este costisitoare din punct de vedere al memoriei, insa este rapida. De asemenea aceasta tema reprezinta un mod bun de exersare a implementarii listelor, cozilor, stivelor si arborilor in C.
